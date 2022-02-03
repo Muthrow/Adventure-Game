@@ -1,2 +1,2 @@
-# Grammer-Game
-A grammar based educational game.
+# Game Title
+A multi-disciplinary educational game.
