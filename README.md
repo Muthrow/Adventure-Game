@@ -17,12 +17,14 @@
 # Useful Websites
 
 {Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
+* [Open Game Art](https://opengameart.org/)
 * [Web Site Name](http://url.link.goes.here)
 
 # Future Work
 
 {Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+
+* Add player functionality
+* Add UI and menus
+* Read in maps from tiled
+* Basic Framework
