@@ -1,11 +1,9 @@
 """ Main class and Game Runner """
+from arcade import Window, run
+from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
 
-import arcade
-
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH
-
-class Game(arcade.Window):
-    """ Main game Class. Handles all game logic """
+""" class Game(arcade.Window):
+    #Main game Class. Handles all game logic
 
     def __init__(self, width: int = 800, height: int = 600, title: str = 'Arcade Window', fullscreen: bool = False, resizable: bool = False):
         super().__init__(width, height, title, fullscreen, resizable)
@@ -16,15 +14,24 @@ class Game(arcade.Window):
         pass
 
     def update(self, delta_time: float):
-        """ Update game """
+        #Update game
         return super().update(delta_time)
 
 def main():
-    """ Main method """
+    #Main method
     window = Game(SCREEN_WIDTH, SCREEN_HEIGHT, 'Your Mom', False)
     window.setup()
     arcade.run()
 
 
 if __name__ == "__main__":
+    main() """
+
+def main():
+    window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable = True, fullscreen = True)
+    run()   #If we do a start screen, we add it before this line
+
+if __name__ == "__main__":
     main()
+
+    #If you run this file, you will need to force the window closed as I have not made it to where there is a button to exit yet
