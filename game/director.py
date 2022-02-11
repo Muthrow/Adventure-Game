@@ -1,7 +1,8 @@
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F11
+from arcade.key import ESCAPE, F
 import arcade
 from time import time
+from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
 # import constants as c
 #Here is where we will import the classes from other files
 """
@@ -10,8 +11,9 @@ Class that hanldes the main game view. Inherits from Arcade View.
 """
 
 class Director(Window):
-    def __init__(self, width: int = 800, height: int = 600, title: str = 'Arcade Window', fullscreen: bool = False, resizable: bool = False, update_rate: float = 1 / 60, antialiasing: bool = True, screen = None):
+    def __init__(self):
         #Define attributes here
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=True)
         self.keep_playing = True
         self.background = SpriteList()
         self.island = SpriteList()
@@ -20,7 +22,6 @@ class Director(Window):
         #self.scene = None
         self.tile_map = arcade.load_tilemap("resources\Maps\\untitled.tmx")
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        super().__init__(width, height, title, fullscreen, resizable)
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
     
@@ -35,13 +36,13 @@ class Director(Window):
     def inputs(self):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
-        self.on_key_press
 
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
-            self.keep_playing = False
-        # if symbol == F11:
-        #     Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
+            arcade.close_window()
+        if symbol == F:
+            self.set_fullscreen(not self.fullscreen)
+            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
 
     def on_draw(self):
         self.clear()
