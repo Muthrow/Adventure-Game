@@ -1,17 +1,26 @@
-from arcade import SpriteList, View, Camera, Sound, Scene, Window
+from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F11
+import arcade
 from time import time
-import constants as c
+# import constants as c
 #Here is where we will import the classes from other files
 """
 Director Class:
 Class that hanldes the main game view. Inherits from Arcade View.
 """
 
-class Director(View):
-    def __init__(self):
+class Director(Window):
+    def __init__(self, width: int = 800, height: int = 600, title: str = 'Arcade Window', fullscreen: bool = False, resizable: bool = False, update_rate: float = 1 / 60, antialiasing: bool = True, screen = None):
         #Define attributes here
         self.keep_playing = True
+        self.background = SpriteList()
+        self.island = SpriteList()
+        self.castle = SpriteList()
+        map = arcade.read_tmx("resources\Maps\\untitled.tmx")
+        self.background = arcade.process_layer(map,'Water')
+        self.island = arcade.process_layer(map,'Island')
+        self.castle = arcade.process_layer(map,'Castle')
+        super().__init__(width, height, title, fullscreen, resizable, update_rate, antialiasing, screen)
 
     def start_game(self):
         """Starts the game"""
@@ -24,12 +33,18 @@ class Director(View):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
         self.on_key_press
-    
+
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
             self.keep_playing = False
-        if symbol == F11:
-            Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
+        # if symbol == F11:
+        #     Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
+
+    def on_draw(self):
+        self.background.draw()
+        self.island.draw()
+        self.castle.draw()
+        return super().on_draw()
 
     def updates(self):
         """Updates the game every tick"""

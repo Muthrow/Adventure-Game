@@ -1,6 +1,8 @@
 """ Main class and Game Runner """
 from arcade import Window, run
+import arcade
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
+from game.director import Director
 
 """ class Game(arcade.Window):
     #Main game Class. Handles all game logic
@@ -28,8 +30,10 @@ if __name__ == "__main__":
     main() """
 
 def main():
-    window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable = True, fullscreen = False)
-    run()   #If we do a start screen, we add it before this line
+    window = Director(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable = True, fullscreen = False)
+    # window.start_game()
+    arcade.run()
+    #If we do a start screen, we add it before this line
 
 if __name__ == "__main__":
     main()
