@@ -1,5 +1,7 @@
-from arcade import SpriteList, View, Camera, Sound, Scene
+from arcade import SpriteList, View, Camera, Sound, Scene, Window
+from arcade.key import ESCAPE, F11
 from time import time
+import constants as c
 #Here is where we will import the classes from other files
 """
 Director Class:
@@ -21,6 +23,13 @@ class Director(View):
     def inputs(self):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
+        self.on_key_press
+    
+    def on_key_press(self, symbol, modifiers):
+        if symbol == ESCAPE:
+            self.keep_playing = False
+        if symbol == F11:
+            Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
 
     def updates(self):
         """Updates the game every tick"""
