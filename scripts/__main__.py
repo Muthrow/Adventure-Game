@@ -1,8 +1,8 @@
 """ Main class and Game Runner """
 from arcade import Window, run
 import arcade
-from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
-from game.director import Director
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE
+from director import Director
 
 """ class Game(arcade.Window):
     #Main game Class. Handles all game logic

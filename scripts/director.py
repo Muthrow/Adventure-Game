@@ -1,9 +1,10 @@
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F11
+from arcade.key import ESCAPE, F11, W, A, S, D
 import arcade
 from time import time
-# import constants as c
-#Here is where we will import the classes from other files
+from zplayer import Player
+import constants as c
+#Here is where we will import the classes from other files scripts\game\zplayer.py
 """
 Director Class:
 Class that hanldes the main game view. Inherits from Arcade View.
@@ -16,6 +17,7 @@ class Director(Window):
         self.background = SpriteList()
         self.island = SpriteList()
         self.castle = SpriteList()
+        self.player = Player()
         map = arcade.read_tmx("resources\Maps\\untitled.tmx")
         self.background = arcade.process_layer(map,'Water')
         self.island = arcade.process_layer(map,'Island')
@@ -37,6 +39,15 @@ class Director(Window):
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
             self.keep_playing = False
+
+        if symbol == W:
+            self.player.move(0,1)
+        if symbol == A:
+            self.player.move(-1,0)
+        if symbol == S:
+            self.player.move(0,-1)
+        if symbol == D:
+            self.player.move(1,0)
         # if symbol == F11:
         #     Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
 
