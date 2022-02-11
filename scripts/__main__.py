@@ -28,7 +28,7 @@ if __name__ == "__main__":
     main() """
 
 def main():
-    window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable = True, fullscreen = True)
+    window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable = True, fullscreen = False)
     run()   #If we do a start screen, we add it before this line
 
 if __name__ == "__main__":
