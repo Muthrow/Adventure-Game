@@ -16,11 +16,14 @@ class Director(Window):
         self.background = SpriteList()
         self.island = SpriteList()
         self.castle = SpriteList()
-        map = arcade.read_tmx("resources\Maps\\untitled.tmx")
-        self.background = arcade.process_layer(map,'Water')
-        self.island = arcade.process_layer(map,'Island')
-        self.castle = arcade.process_layer(map,'Castle')
-        super().__init__(width, height, title, fullscreen, resizable, update_rate, antialiasing, screen)
+        #self.tile_map = None
+        #self.scene = None
+        self.tile_map = arcade.load_tilemap("resources\Maps\\untitled.tmx")
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        super().__init__(width, height, title, fullscreen, resizable)
+        #, update_rate, antialiasing, screen
+        #had to remove this from super.__init__
+    
 
     def start_game(self):
         """Starts the game"""
@@ -41,9 +44,11 @@ class Director(Window):
         #     Window(c.SCREEN_WIDTH, c.SCREEN_HEIGHT, c.SCREEN_TITLE, resizable = True, fullscreen = False)
 
     def on_draw(self):
-        self.background.draw()
-        self.island.draw()
-        self.castle.draw()
+        self.clear()
+        self.scene.draw()
+        #self.background.draw()
+        #self.island.draw()
+        #self.castle.draw()
         return super().on_draw()
 
     def updates(self):
