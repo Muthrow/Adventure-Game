@@ -6,7 +6,7 @@ class Player(arcade.Sprite):
         filename = "game\\resources\\player.png"
         self.speed = 3
         #super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y, repeat_count_x, repeat_count_y, flipped_horizontally, flipped_vertically, flipped_diagonally, mirrored, hit_box_algorithm, hit_box_detail)
-        super().__init__(filename, 1)
+        super().__init__(filename, 2, center_x=center_x, center_y=center_y)
 
     def move(self, x, y):
         self.change_x = x * self.speed

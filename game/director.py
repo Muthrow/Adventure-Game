@@ -2,7 +2,7 @@ from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D
 import arcade
 from time import time
-from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH
+from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING
 from game.zplayer import Player
 #import game.constants as c
 #Here is where we will import the classes from other files
@@ -26,19 +26,19 @@ class Director(Window):
             },
         }
         #Define attributes here
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=True)
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
         self.keep_playing = True
         self.background = SpriteList()
         self.island = SpriteList()
         self.castle = SpriteList()
-        self.player = Player()
+        self.player = Player(center_x=250,center_y=250)
         #self.tile_map = None
         #self.scene = None
-        self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx")
+        self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx", scaling=MAP_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
-    
+
 
     def start_game(self):
         """Starts the game"""
@@ -68,6 +68,17 @@ class Director(Window):
         if symbol == D:
             self.player.move(1,0)
 
+    def on_key_release(self, symbol: int, modifiers: int):
+        if symbol == W:
+            self.player.move(0,0)
+        if symbol == A:
+            self.player.move(0,0)
+        if symbol == S:
+            self.player.move(0,0)
+        if symbol == D:
+            self.player.move(0,0)
+        return super().on_key_release(symbol, modifiers)
+
     def on_draw(self):
         self.clear()
         self.scene.draw()
@@ -77,7 +88,7 @@ class Director(Window):
         #self.castle.draw()
         return super().on_draw()
 
-    def updates(self):
+    def update(self, delta_time: float):
         """Updates the game every tick"""
         self.background.update()
         self.castle.update()
