@@ -24,11 +24,11 @@
 
 {Make a list of things that you need to fix, improve, and add in the future.}
 
-* Puzzle List
-* Basic Enemies
-* Attacking
-* One Big Test Map
-* Bring an educational mechanic
+* David - Puzzle List
+* Jace - Basic Enemies
+* Joel - Attacking
+* Zack - One Big Test Map
+* All - Bring an educational mechanic idea
 
 # Areas
 
