@@ -24,10 +24,11 @@
 
 {Make a list of things that you need to fix, improve, and add in the future.}
 
-* Add player functionality
-* Add UI and menus
-* Read in maps from tiled
-* Basic Framework
+* Puzzle List
+* Basic Enemies
+* Attacking
+* One Big Test Map
+* Bring an educational mechanic
 
 # Areas
 
