@@ -28,3 +28,19 @@
 * Add UI and menus
 * Read in maps from tiled
 * Basic Framework
+
+# Areas
+
+* Math
+* Science
+* English
+* History
+
+# Style Elements
+
+* Dungeon Crawler
+* Puzzles
+* Quizes
+* Punishment/Reward System
+* Pushable Blocks 
+* Boss enemies
