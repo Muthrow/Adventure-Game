@@ -1,5 +1,5 @@
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F
+from arcade.key import ESCAPE, F, W, A, S, D
 import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH
@@ -59,6 +59,14 @@ class Director(Window):
         if symbol == F:
             self.set_fullscreen(not self.fullscreen)
             self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+        if symbol == W:
+            self.player.move(0,1)
+        if symbol == A:
+            self.player.move(-1,0)
+        if symbol == S:
+            self.player.move(0,-1)
+        if symbol == D:
+            self.player.move(1,0)
 
     def on_draw(self):
         self.clear()
