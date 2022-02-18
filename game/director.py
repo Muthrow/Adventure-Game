@@ -36,6 +36,7 @@ class Director(Window):
         #self.scene = None
         self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx", scaling=MAP_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        self.physics = arcade.PhysicsEngineSimple(self.player, self.background)
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
 
@@ -94,6 +95,7 @@ class Director(Window):
         self.castle.update()
         self.island.update()
         self.player.update()
+        self.physics.update()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
