@@ -3,7 +3,8 @@ from arcade.key import ESCAPE, F
 import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH
-# import constants as c
+from game.zplayer import Player
+#import game.constants as c
 #Here is where we will import the classes from other files
 """
 Director Class:
@@ -12,12 +13,25 @@ Class that hanldes the main game view. Inherits from Arcade View.
 
 class Director(Window):
     def __init__(self):
+
+        layer_options = {
+            "Water": {
+                "use_spatial_hash": True,
+            },
+            "Island": {
+                "use_spatial_hash": True,
+            },
+            "Castle": {
+                "use_spatial_hash": True,
+            },
+        }
         #Define attributes here
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=True)
         self.keep_playing = True
         self.background = SpriteList()
         self.island = SpriteList()
         self.castle = SpriteList()
+        self.player = Player()
         #self.tile_map = None
         #self.scene = None
         self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx")
@@ -30,12 +44,14 @@ class Director(Window):
         """Starts the game"""
         while self.keep_playing:
             self.inputs()
-            self.updates()
+            self.update()
             self.outputs()
 
     def inputs(self):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
+        # self.on_key_press
+        pass
 
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
@@ -47,6 +63,7 @@ class Director(Window):
     def on_draw(self):
         self.clear()
         self.scene.draw()
+        self.player.draw()
         #self.background.draw()
         #self.island.draw()
         #self.castle.draw()
@@ -54,6 +71,11 @@ class Director(Window):
 
     def updates(self):
         """Updates the game every tick"""
+        self.background.update()
+        self.castle.update()
+        self.island.update()
+        self.player.update()
+        return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
     def outputs(self):
