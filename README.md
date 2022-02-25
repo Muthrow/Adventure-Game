@@ -26,7 +26,7 @@
 
 * David - /
 * Jace - Enemy interactions
-* Joel - Finish Enemies
+* Joel - Finish Enemies (Pathfinding, basic AI stuff)
 * Zack - Map Switching
 * Cameron - Dialog Boxes
 * All - Bring an educational mechanic idea
