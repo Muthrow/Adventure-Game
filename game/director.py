@@ -4,6 +4,7 @@ import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING
 from game.zplayer import Player
+from game.enemySprite import EnemySprite
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -32,6 +33,7 @@ class Director(Window):
         self.island = SpriteList()
         self.castle = SpriteList()
         self.player = Player(center_x=250,center_y=250)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}player.png",2)
         #self.tile_map = None
         #self.scene = None
         self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx", scaling=MAP_SCALING)
@@ -84,6 +86,7 @@ class Director(Window):
         self.clear()
         self.scene.draw()
         self.player.draw()
+        self.enemy.draw()
         #self.background.draw()
         #self.island.draw()
         #self.castle.draw()
