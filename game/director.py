@@ -2,7 +2,7 @@ from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D
 import arcade
 from time import time
-from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING
+from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
 from game.enemySprite import EnemySprite
 #import game.constants as c
@@ -16,31 +16,34 @@ class Director(Window):
     def __init__(self):
 
         layer_options = {
-            "Water": {
+            "water": {
                 "use_spatial_hash": True,
             },
-            "Island": {
+            "wava": {
                 "use_spatial_hash": True,
             },
-            "Castle": {
+            "obstacle": {
                 "use_spatial_hash": True,
             },
         }
         #Define attributes here
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
         self.keep_playing = True
-        self.background = SpriteList()
-        self.island = SpriteList()
-        self.castle = SpriteList()
+        self.ground = SpriteList()
+        self.water = SpriteList()
+        self.obstacle = SpriteList()
+        self.lava = SpriteList()
+        self.door = SpriteList()
         self.player = Player(center_x=250,center_y=250)
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}player.png",2)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}player.png", PLAYER_SCALE)
         #self.tile_map = None
         #self.scene = None
-        self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\untitled.tmx", scaling=MAP_SCALING)
+        # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
+        self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        self.physics = arcade.PhysicsEngineSimple(self.player, self.background)
+        self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
 
     def start_game(self):
@@ -87,16 +90,17 @@ class Director(Window):
         self.scene.draw()
         self.player.draw()
         self.enemy.draw()
-        #self.background.draw()
+        #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
         return super().on_draw()
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
-        self.background.update()
-        self.castle.update()
-        self.island.update()
+        self.scene.update()
+        # self.ground.update()
+        # self.obstacle.update()
+        # self.water.update()
         self.player.update()
         self.physics.update()
         return super().update(delta_time)
