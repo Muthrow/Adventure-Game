@@ -19,5 +19,5 @@ class EnemySprite(Sprite):
     def getDamage(self):
         return self.damage
 
-    def onHit(self):
-        self.hitPoints -= 1
+    def onHit(self, damage = 1):
+        self.hitPoints -= damage
