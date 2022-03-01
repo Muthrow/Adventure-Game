@@ -1,3 +1,12 @@
+"""
+TODO:
+ * implement setup function
+ * water and lava collision
+ * set up cameras (maybe)
+ * map switching
+ * foreground layer
+
+"""
 from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D
 import arcade
@@ -19,7 +28,7 @@ class Director(Window):
             "water": {
                 "use_spatial_hash": True,
             },
-            "wava": {
+            "lava": {
                 "use_spatial_hash": True,
             },
             "obstacle": {

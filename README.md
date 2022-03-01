@@ -44,5 +44,5 @@
 * Puzzles
 * Quizes
 * Punishment/Reward System
-* Pushable Blocks 
+* Pushable Blocks
 * Boss enemies
