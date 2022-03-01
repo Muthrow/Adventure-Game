@@ -8,12 +8,18 @@ class Player(arcade.Sprite):
         self.speed = 3
         self.hitPoints = 3
         self.damage = 1
+        self.vel_x = 0
+        self.vel_y = 0
         #super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y, repeat_count_x, repeat_count_y, flipped_horizontally, flipped_vertically, flipped_diagonally, mirrored, hit_box_algorithm, hit_box_detail)
         super().__init__(filename, PLAYER_SCALE, center_x=center_x, center_y=center_y)
 
-    def move(self, x, y):
-        self.change_x = x * self.speed
-        self.change_y = y * self.speed
+    def move(self):
+        self.change_x = self.vel_x
+        self.change_y = self.vel_y
+
+    def setDirection(self, x, y):
+        self.vel_x += x * self.speed
+        self.vel_y += y * self.speed
 
     def getHealth(self):
         return self.hitPoints
@@ -23,3 +29,7 @@ class Player(arcade.Sprite):
 
     def onHit(self, damage = 1):
         self.hitPoints -= damage
+
+    def update(self):
+        self.move()
+        return super().update()

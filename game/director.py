@@ -75,23 +75,23 @@ class Director(Window):
             self.set_fullscreen(not self.fullscreen)
             self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         if symbol == W:
-            self.player.move(0,1)
+            self.player.setDirection(0,1)
         if symbol == A:
-            self.player.move(-1,0)
+            self.player.setDirection(-1,0)
         if symbol == S:
-            self.player.move(0,-1)
+            self.player.setDirection(0,-1)
         if symbol == D:
-            self.player.move(1,0)
+            self.player.setDirection(1,0)
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == W:
-            self.player.move(0,0)
+            self.player.setDirection(0,-1)
         if symbol == A:
-            self.player.move(0,0)
+            self.player.setDirection(1,0)
         if symbol == S:
-            self.player.move(0,0)
+            self.player.setDirection(0,1)
         if symbol == D:
-            self.player.move(0,0)
+            self.player.setDirection(-1,0)
         return super().on_key_release(symbol, modifiers)
 
     def on_draw(self):
