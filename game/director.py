@@ -5,7 +5,6 @@ TODO:
  * set up cameras (maybe)
  * map switching
  * foreground layer
-
 """
 from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D
