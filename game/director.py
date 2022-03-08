@@ -112,6 +112,7 @@ class Director(Window):
         # self.water.update()
         self.player.update()
         self.physics.update()
+        self.enemy.update()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
