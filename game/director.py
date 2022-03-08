@@ -42,7 +42,7 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player(center_x=250,center_y=250)
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}player.png", PLAYER_SCALE)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
         #self.tile_map = None
         #self.scene = None
         # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
