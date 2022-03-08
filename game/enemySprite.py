@@ -42,15 +42,15 @@ class EnemySprite(Sprite):
                 dir_x = 1
                 dir_y = 1
             elif direction == 5:
-                dir_y = 1
+                dir_y = -1
             elif direction == 6:
                 dir_y = 1
-                dir_x = 1
+                dir_x = -1
             elif direction == 7:
-                dir_x = 1
+                dir_x = -1
             elif direction == 8:
                 dir_x = 1
-                dir_y = 1
+                dir_y = -1
 
             self.change_x = dir_x * self.speed
             self.change_y = dir_y * self.speed
