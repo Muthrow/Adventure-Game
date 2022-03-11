@@ -7,12 +7,13 @@ TODO:
  * foreground layer
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE
 import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
 from game.enemySprite import EnemySprite
+from game.map import Overworld, Map
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -23,6 +24,29 @@ Class that hanldes the main game view. Inherits from Arcade View.
 class Director(Window):
     def __init__(self):
 
+        self.maps = [Overworld()]
+        self.map_num = 0
+        #Define attributes here
+        self.keep_playing = True
+        self.ground = SpriteList()
+        self.water = SpriteList()
+        self.obstacle = SpriteList()
+        self.lava = SpriteList()
+        self.door = SpriteList()
+        self.player = Player()
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        #self.tile_map = None
+        #self.scene = None
+        # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
+        # self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
+        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        # self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        #, update_rate, antialiasing, screen
+        #had to remove this from super.__init__
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
+        self.setup()
+
+    def setup(self):
         layer_options = {
             "water": {
                 "use_spatial_hash": True,
@@ -34,32 +58,11 @@ class Director(Window):
                 "use_spatial_hash": True,
             },
         }
-        #Define attributes here
-        self.keep_playing = True
-        self.ground = SpriteList()
-        self.water = SpriteList()
-        self.obstacle = SpriteList()
-        self.lava = SpriteList()
-        self.door = SpriteList()
-        self.player = Player(center_x=250,center_y=250)
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
-        #self.tile_map = None
-        #self.scene = None
-        # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
-        self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
+        map = self.maps[self.map_num]
+        self.player.center_x, self.player.center_y = map.player_spawn
+        self.tile_map = arcade.TileMap(map.filename, scaling=MAP_SCALING, layer_options=layer_options)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
         self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
-        #, update_rate, antialiasing, screen
-        #had to remove this from super.__init__
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
-
-
-    def start_game(self):
-        """Starts the game"""
-        while self.keep_playing:
-            self.inputs()
-            self.update()
-            self.outputs()
 
     def inputs(self):
         """Gets user input"""
@@ -81,6 +84,8 @@ class Director(Window):
             self.player.setDirection(0,-1)
         if symbol == D:
             self.player.setDirection(1,0)
+        if symbol == SPACE:
+            print(self.player.position)
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == W:
