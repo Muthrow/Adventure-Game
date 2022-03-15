@@ -9,24 +9,33 @@ class EnemySprite(Sprite):
         self.damage = 1
         self.center_x = 100
         self.center_y = 100
-        self.vel_x = 0
-        self.vel_y = 0
-        self.speed = 10
+        self.vel_x = 1
+        self.vel_y = 1
+        self.speed = 16
         self.starttimer = time()
+        self.left_limit = 20
+        self.right_limit = 180
+        self.top_limit = 20
+        self.bottom_limit = 180
 
     def update(self):
-        # if self.center_x < LIMIT_LEFT:
-        #     self.center_x = LIMIT_LEFT
-        #     self.change_x *= -1
-        # if self.center_x > LIMIT_RIGHT:
-        #     self.center_x = LIMIT_RIGHT
-        #     self.change_x *= -1
-        # if self.center_y > LIMIT_TOP:
-        #     self.center_y = LIMIT_TOP
-        #     self.change_y *= -1
-        # if self.center_y < LIMIT_BOTTOM:
-        #     self.center_y = LIMIT_BOTTOM
-        #     self.change_y *= -1
+        self.move()
+        
+
+    def move(self):
+        if self.center_x < self.left_limit:
+            self.center_x = self.left_limit
+            self.change_x *= -1
+        if self.center_x > self.right_limit:
+            self.center_x = self.right_limit
+            self.change_x *= -1
+        if self.center_y > self.top_limit:
+            self.center_y = self.top_limit
+            self.change_y *= -1
+        if self.center_y < self.bottom_limit:
+            self.center_y = self.bottom_limit
+            self.change_y *= -1
+
         if self.starttimer + 2.5 <= time():   
             dir_x = 0
             dir_y = 0
@@ -39,29 +48,37 @@ class EnemySprite(Sprite):
             elif direction == 3:
                 dir_x = 1
             elif direction == 4:
-                dir_x = 1
-                dir_y = 1
+                dir_x = -1
+                dir_y = -1
             elif direction == 5:
                 dir_y = -1
             elif direction == 6:
-                dir_y = 1
                 dir_x = -1
+                dir_y = 1
             elif direction == 7:
                 dir_x = -1
             elif direction == 8:
                 dir_x = 1
                 dir_y = -1
 
-            self.change_x = dir_x * self.speed
-            self.change_y = dir_y * self.speed
-
-            self.center_x += self.change_x
-            self.center_y += self.change_y
+            self.change_x = self.center_x + (dir_x * self.speed)
+            self.change_y = self.center_y + (dir_y * self.speed)
             self.starttimer = time()
 
-    def move(self):
-        self.change_x = self.vel_x
-        self.change_y = self.vel_y
+        if self.center_x != self.change_x:
+            if self.center_x < self.change_x:
+                self.center_x += self.vel_x
+
+            elif self.center_x > self.change_x:
+                self.center_x -= self.vel_x
+
+        if self.center_y != self.change_y:
+            if self.center_y < self.change_y:
+                    self.center_y += self.vel_y
+
+            elif self.center_y > self.change_y:
+                self.center_y -= self.vel_y
+
 
     def setDirection(self, x, y):
         self.vel_x += x * self.speed
