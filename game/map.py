@@ -14,8 +14,7 @@ class Map(arcade.TileMap):
         for door in door_list:
             door = Door(door.position, map_name)
             self.door_list.append(door)
-        # for each in self.door_list:
-        #     print(each.center_x, each.center_y)
+
 
 class Overworld(Map):
     """ Object containing all the data for the overworld map """

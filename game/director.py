@@ -43,6 +43,8 @@ class Director(Window):
         # self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
+        self.wall_physics = None
+        self.water_physics = None
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
         self.setup()
 
@@ -63,7 +65,8 @@ class Director(Window):
         # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
         self.scene = arcade.Scene.from_tilemap(cur_map)
         # cur_map.set_doors(self.scene['door'], cur_map.filename)
-        self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
 
     def inputs(self):
         """Gets user input"""
@@ -119,7 +122,8 @@ class Director(Window):
         # self.obstacle.update()
         # self.water.update()
         self.player.update()
-        self.physics.update()
+        self.wall_physics.update()
+        self.water_physics.update()
         self.enemy.update()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
