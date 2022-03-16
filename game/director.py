@@ -8,11 +8,13 @@ TODO:
 
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D
+from arcade.key import ESCAPE, F, W, A, S, D, U
 import arcade
+import arcade.gui
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
+from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite
 #import game.constants as c
 #Here is where we will import the classes from other files
@@ -23,6 +25,7 @@ Class that hanldes the main game view. Inherits from Arcade View.
 
 class Director(Window):
     def __init__(self):
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
         layer_options = {
             "water": {
@@ -37,9 +40,20 @@ class Director(Window):
         }
         #Define attributes here
         self.keep_playing = True
+        self.score = 0
         self.ground = SpriteList()
         self.water = SpriteList()
         self.obstacle = SpriteList()
+        self.inMenu = False
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+        self.v_box = arcade.gui.UIBoxLayout()
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x",
+                anchor_y="center_y",
+                child=self.v_box)
+        )
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player(center_x=250,center_y=250)
@@ -52,7 +66,6 @@ class Director(Window):
         self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
 
     def start_game(self):
@@ -74,24 +87,28 @@ class Director(Window):
         if symbol == F:
             self.set_fullscreen(not self.fullscreen)
             self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
-        if symbol == W:
-            self.player.setDirection(0,1)
-        if symbol == A:
-            self.player.setDirection(-1,0)
-        if symbol == S:
-            self.player.setDirection(0,-1)
-        if symbol == D:
-            self.player.setDirection(1,0)
-
+        if not self.inMenu:
+            if symbol == W:
+                self.player.setDirection(0,1)
+            if symbol == A:
+                self.player.setDirection(-1,0)
+            if symbol == S:
+                self.player.setDirection(0,-1)
+            if symbol == D:
+                self.player.setDirection(1,0)
+            if symbol == U:
+                question = Dialogue("Hello World", ["a", "b", "c", "d"], "c", self.manager, self.score)
+        
     def on_key_release(self, symbol: int, modifiers: int):
-        if symbol == W:
-            self.player.setDirection(0,-1)
-        if symbol == A:
-            self.player.setDirection(1,0)
-        if symbol == S:
-            self.player.setDirection(0,1)
-        if symbol == D:
-            self.player.setDirection(-1,0)
+        if not self.inMenu:
+            if symbol == W:
+                self.player.setDirection(0,-1)
+            if symbol == A:
+                self.player.setDirection(1,0)
+            if symbol == S:
+                self.player.setDirection(0,1)
+            if symbol == D:
+                self.player.setDirection(-1,0)
         return super().on_key_release(symbol, modifiers)
 
     def on_draw(self):
@@ -99,6 +116,7 @@ class Director(Window):
         self.scene.draw()
         self.player.draw()
         self.enemy.draw()
+        self.manager.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
