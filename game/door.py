@@ -1,7 +1,7 @@
 import arcade
 import game.constants
 
-class Door():
+class Door(arcade.Sprite):
     """ Represents a Door """
     def __init__(self, door_position, base_map):
         self.current_position = door_position

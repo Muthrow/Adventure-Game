@@ -7,3 +7,14 @@ RESOURCE_PATH = f"{path.dirname(path.abspath(__file__))}/resources/"    #Might n
 MAP_SCALING = .55
 PLAYER_SCALE = .8
 PLAYER_SPEED = 1
+LAYER_OPTIONS = {
+    "water": {
+        "use_spatial_hash": True,
+        },
+    "lava": {
+        "use_spatial_hash": True,
+        },
+    "obstacle": {
+        "use_spatial_hash": True,
+        },
+    }
