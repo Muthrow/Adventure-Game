@@ -7,7 +7,7 @@ TODO:
  * foreground layer
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q
 import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
@@ -35,6 +35,10 @@ class Director(Window):
         self.door = SpriteList()
         self.player = Player()
         self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        self.enemySprites = SpriteList(use_spatial_hash = False)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        self.enemySprites.append(self.enemy)
+
         #self.tile_map = None
         #self.scene = None
         # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
@@ -88,11 +92,14 @@ class Director(Window):
             self.player.setDirection(0,-1)
         if symbol == D:
             self.player.setDirection(1,0)
-        if symbol == SPACE:
+        if symbol == Q:
             print(self.player.position)
         if symbol == M:
             self.map_num = (self.map_num + 1) % 3
             self.setup()
+        if symbol == SPACE:
+            self.player.setSpriteList(self.enemySprites)
+            self.player.attack()
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == W:

@@ -13,8 +13,9 @@ class Player(arcade.Sprite):
         self.playerDirection = 0
         self.animationFrame = 0
         self.animationSpeed = 2
+        self.spriteList = None
         #super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y, repeat_count_x, repeat_count_y, flipped_horizontally, flipped_vertically, flipped_diagonally, mirrored, hit_box_algorithm, hit_box_detail)
-        super().__init__(filename, PLAYER_SCALE, center_x=center_x, center_y=center_y)
+        super().__init__(filename, 0.5, center_x=center_x, center_y=center_y)
 
     def move(self):
         self.change_x = self.vel_x
@@ -51,7 +52,14 @@ class Player(arcade.Sprite):
            self.animationFrame = 0
         self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection][int(self.animationFrame/self.animationSpeed)]}")
         
-    
     def update(self):
         self.move()
         return super().update()
+
+    def setSpriteList(self, spriteList):
+        self.spriteList = spriteList
+
+    def attack(self):
+        collisionList = self.collides_with_list(self.spriteList)
+        if len(collisionList) != 0:
+            print("hit")
