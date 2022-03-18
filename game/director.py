@@ -101,6 +101,7 @@ class Director(Window):
     def on_draw(self):
         self.clear()
         self.scene.draw()
+        self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
         #self.ground.draw()
