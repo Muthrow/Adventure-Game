@@ -20,6 +20,5 @@ class Dialogue():
     def onAnswer(self, button):
         if button == self.correct:
             score += 100
-            print("yay")
         else:
-            print("boo")
+            pass
