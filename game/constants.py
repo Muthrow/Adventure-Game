@@ -16,3 +16,14 @@ PLAYER_LEFT = ["Player/exec1_left (2).png", "Player/exec1_left (1).png",
 PLAYER_RIGHT = ["Player/exec1_right (2).png", "Player/exec1_right (1).png",
  "Player/exec1_right (2).png", "Player/exec1_right (3).png"]
 PLAYER_SPRITES = [PLAYER_DOWN, PLAYER_UP, PLAYER_LEFT, PLAYER_RIGHT]
+LAYER_OPTIONS = {
+    "water": {
+        "use_spatial_hash": True,
+        },
+    "lava": {
+        "use_spatial_hash": True,
+        },
+    "obstacle": {
+        "use_spatial_hash": True,
+        },
+    }

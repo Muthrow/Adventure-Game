@@ -7,13 +7,13 @@ TODO:
  * foreground layer
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D, SPACE
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M
 import arcade
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
 from game.enemySprite import EnemySprite
-from game.map import Overworld, Map
+from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -24,7 +24,7 @@ Class that hanldes the main game view. Inherits from Arcade View.
 class Director(Window):
     def __init__(self):
 
-        self.maps = [Overworld()]
+        self.maps = [Overworld(), Cross_Dungeon(), Other_Dungeon()]
         self.map_num = 0
         #Define attributes here
         self.keep_playing = True
@@ -43,6 +43,8 @@ class Director(Window):
         # self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
+        self.wall_physics = None
+        self.water_physics = None
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
         self.setup()
 
@@ -58,11 +60,13 @@ class Director(Window):
                 "use_spatial_hash": True,
             },
         }
-        map = self.maps[self.map_num]
-        self.player.center_x, self.player.center_y = map.player_spawn
-        self.tile_map = arcade.TileMap(map.filename, scaling=MAP_SCALING, layer_options=layer_options)
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        cur_map = self.maps[self.map_num]
+        self.player.center_x, self.player.center_y = cur_map.player_spawn
+        # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
+        self.scene = arcade.Scene.from_tilemap(cur_map)
+        # cur_map.set_doors(self.scene['door'], cur_map.filename)
+        self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
 
     def inputs(self):
         """Gets user input"""
@@ -86,6 +90,9 @@ class Director(Window):
             self.player.setDirection(1,0)
         if symbol == SPACE:
             print(self.player.position)
+        if symbol == M:
+            self.map_num = (self.map_num + 1) % 3
+            self.setup()
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == W:
@@ -116,7 +123,8 @@ class Director(Window):
         # self.obstacle.update()
         # self.water.update()
         self.player.update()
-        self.physics.update()
+        self.wall_physics.update()
+        self.water_physics.update()
         self.enemy.update()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
