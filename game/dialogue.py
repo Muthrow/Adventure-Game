@@ -19,6 +19,6 @@ class Dialogue():
 
     def onAnswer(self, button):
         if button == self.correct:
-            score += 100
+            self.score += 100
         else:
             pass

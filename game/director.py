@@ -11,6 +11,8 @@ from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D, U
 import arcade
 import arcade.gui
+import game.questions as qs
+from random import randint
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
@@ -97,7 +99,8 @@ class Director(Window):
             if symbol == D:
                 self.player.setDirection(1,0)
             if symbol == U:
-                question = Dialogue("Hello World", ["a", "b", "c", "d"], "c", self.manager, self.score)
+                myQ = randint(0, len(qs.questions) - 1)
+                question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
         
     def on_key_release(self, symbol: int, modifiers: int):
         if not self.inMenu:
