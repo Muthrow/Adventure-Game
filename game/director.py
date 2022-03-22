@@ -5,10 +5,9 @@ TODO:
  * set up cameras (maybe)
  * map switching
  * foreground layer
-
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D, U
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
 import arcade
 import arcade.gui
 import game.questions as qs
@@ -18,6 +17,8 @@ from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_P
 from game.zplayer import Player
 from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite
+from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
+from game.projectile import Projectile
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -29,17 +30,8 @@ class Director(Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
-        layer_options = {
-            "water": {
-                "use_spatial_hash": True,
-            },
-            "lava": {
-                "use_spatial_hash": True,
-            },
-            "obstacle": {
-                "use_spatial_hash": True,
-            },
-        }
+        self.maps = [Overworld(), Cross_Dungeon(), Other_Dungeon()]
+        self.map_num = 0
         #Define attributes here
         self.keep_playing = True
         self.score = 0
@@ -58,24 +50,46 @@ class Director(Window):
         )
         self.lava = SpriteList()
         self.door = SpriteList()
-        self.player = Player(center_x=250,center_y=250)
+        self.player = Player()
         self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        self.enemySprites = SpriteList(use_spatial_hash = False)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        self.enemySprites.append(self.enemy)
+        self.projectile = Projectile()
+
         #self.tile_map = None
         #self.scene = None
         # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
-        self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        # self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
+        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        # self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         #, update_rate, antialiasing, screen
         #had to remove this from super.__init__
+        self.wall_physics = None
+        self.water_physics = None
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
+        self.setup()
 
-
-    def start_game(self):
-        """Starts the game"""
-        while self.keep_playing:
-            self.inputs()
-            self.update()
-            self.outputs()
+    def setup(self):
+        # layer_options = {
+        #     "water": {
+        #         "use_spatial_hash": True,
+        #     },
+        #     "lava": {
+        #         "use_spatial_hash": True,
+        #     },
+        #     "obstacle": {
+        #         "use_spatial_hash": True,
+        #     },
+        # }
+        cur_map = self.maps[self.map_num % 3]
+        self.player.center_x, self.player.center_y = cur_map.player_spawn
+        # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
+        self.scene = arcade.Scene.from_tilemap(cur_map)
+        # cur_map.set_doors(self.scene['door'], cur_map.filename)
+        self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
+        self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
+        # self.door = arcade.PhysicsEngineSimple(self.player, walls=self.scene['door'])
 
     def inputs(self):
         """Gets user input"""
@@ -88,20 +102,27 @@ class Director(Window):
             arcade.close_window()
         if symbol == F:
             self.set_fullscreen(not self.fullscreen)
-            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
-        if not self.inMenu:
-            if symbol == W:
-                self.player.setDirection(0,1)
-            if symbol == A:
-                self.player.setDirection(-1,0)
-            if symbol == S:
-                self.player.setDirection(0,-1)
-            if symbol == D:
-                self.player.setDirection(1,0)
-            if symbol == U:
-                myQ = randint(0, len(qs.questions) - 1)
-                question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
-        
+            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)        
+        if symbol == W:
+            self.player.setDirection(0,1)
+        if symbol == A:
+            self.player.setDirection(-1,0)
+        if symbol == S:
+            self.player.setDirection(0,-1)
+        if symbol == D:
+            self.player.setDirection(1,0)
+        if symbol == Q:
+            print(self.player.position)
+        if symbol == M:
+            self.map_num = (self.map_num + 1) % 3
+            self.setup()
+        if symbol == SPACE:
+            self.projectile.setSpriteList(self.enemySprites)
+            self.player.attack(self.projectile)
+        if symbol == U:
+            myQ = randint(0, len(qs.questions) - 1)
+            question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+
     def on_key_release(self, symbol: int, modifiers: int):
         if not self.inMenu:
             if symbol == W:
@@ -117,12 +138,15 @@ class Director(Window):
     def on_draw(self):
         self.clear()
         self.scene.draw()
+        self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
         self.manager.draw()
+        self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
+        self.scene['foreground'].draw()
         return super().on_draw()
 
     def update(self, delta_time: float):
@@ -132,7 +156,16 @@ class Director(Window):
         # self.obstacle.update()
         # self.water.update()
         self.player.update()
-        self.physics.update()
+        self.wall_physics.update()
+        self.water_physics.update()
+        self.enemy.update()
+        self.projectile.update(self.player)
+        if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
+            self.map_num += 1
+            self.setup()
+        if len(arcade.check_for_collision_with_list(self.player, self.scene['question'])) >= 1:
+            pass
+
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
