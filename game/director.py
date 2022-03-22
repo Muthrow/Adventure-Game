@@ -71,7 +71,7 @@ class Director(Window):
         # cur_map.set_doors(self.scene['door'], cur_map.filename)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
-        self.door = arcade.PhysicsEngineSimple(self.player, walls=self.scene['door'])
+        # self.door = arcade.PhysicsEngineSimple(self.player, walls=self.scene['door'])
 
     def inputs(self):
         """Gets user input"""
@@ -134,6 +134,9 @@ class Director(Window):
         self.wall_physics.update()
         self.water_physics.update()
         self.enemy.update()
+        if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
+            self.map_num += 1
+            self.setup()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
