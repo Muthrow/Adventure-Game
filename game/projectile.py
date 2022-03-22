@@ -16,7 +16,7 @@ class Projectile(arcade.Sprite):
     def hit(self):
         collisionList = self.collides_with_list(self.spriteList)
         if len(collisionList) != 0:
-            print("hit")
+            collisionList[0].onHit()
     
     def update(self, player):
         playerPosition = player.getPosition()

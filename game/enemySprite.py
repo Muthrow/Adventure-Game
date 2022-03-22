@@ -19,6 +19,8 @@ class EnemySprite(Sprite):
         self.bottom_limit = 180
 
     def update(self):
+        if self.hitPoints <= 0:
+            self.remove_from_sprite_lists()
         self.move()
         
 
