@@ -7,11 +7,15 @@ TODO:
  * foreground layer
 """
 from arcade import SpriteList, View, Sound, Window
-from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
 import arcade
+import arcade.gui
+import game.questions as qs
+from random import randint
 from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
+from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite
 from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
 from game.projectile import Projectile
@@ -24,14 +28,26 @@ Class that hanldes the main game view. Inherits from Arcade View.
 
 class Director(Window):
     def __init__(self):
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
         self.maps = [Overworld(), Cross_Dungeon(), Other_Dungeon()]
         self.map_num = 0
         #Define attributes here
         self.keep_playing = True
+        self.score = 0
         self.ground = SpriteList()
         self.water = SpriteList()
         self.obstacle = SpriteList()
+        self.inMenu = False
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+        self.v_box = arcade.gui.UIBoxLayout()
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x",
+                anchor_y="center_y",
+                child=self.v_box)
+        )
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
@@ -86,7 +102,7 @@ class Director(Window):
             arcade.close_window()
         if symbol == F:
             self.set_fullscreen(not self.fullscreen)
-            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)        
         if symbol == W:
             self.player.setDirection(0,1)
         if symbol == A:
@@ -103,16 +119,20 @@ class Director(Window):
         if symbol == SPACE:
             self.projectile.setSpriteList(self.enemySprites)
             self.player.attack(self.projectile)
+        if symbol == U:
+            myQ = randint(0, len(qs.questions) - 1)
+            question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
 
     def on_key_release(self, symbol: int, modifiers: int):
-        if symbol == W:
-            self.player.setDirection(0,-1)
-        if symbol == A:
-            self.player.setDirection(1,0)
-        if symbol == S:
-            self.player.setDirection(0,1)
-        if symbol == D:
-            self.player.setDirection(-1,0)
+        if not self.inMenu:
+            if symbol == W:
+                self.player.setDirection(0,-1)
+            if symbol == A:
+                self.player.setDirection(1,0)
+            if symbol == S:
+                self.player.setDirection(0,1)
+            if symbol == D:
+                self.player.setDirection(-1,0)
         return super().on_key_release(symbol, modifiers)
 
     def on_draw(self):
@@ -121,6 +141,7 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
+        self.manager.draw()
         self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
