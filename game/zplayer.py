@@ -59,7 +59,11 @@ class Player(arcade.Sprite):
     def setSpriteList(self, spriteList):
         self.spriteList = spriteList
 
-    def attack(self):
-        collisionList = self.collides_with_list(self.spriteList)
-        if len(collisionList) != 0:
-            print("hit")
+    def attack(self, projectile):
+        projectile.hit()
+
+    def getDirection(self):
+        return self.playerDirection
+
+    def getPosition(self):
+        return [self.center_x, self.center_y]
