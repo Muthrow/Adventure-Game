@@ -142,6 +142,8 @@ class Director(Window):
         if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
             self.map_num += 1
             self.setup()
+        if len(arcade.check_for_collision_with_list(self.player, self.scene['question'])) >= 1:
+            pass
 
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
