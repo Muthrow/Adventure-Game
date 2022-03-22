@@ -64,7 +64,7 @@ class Director(Window):
         #         "use_spatial_hash": True,
         #     },
         # }
-        cur_map = self.maps[self.map_num]
+        cur_map = self.maps[self.map_num % 3]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
         # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
         self.scene = arcade.Scene.from_tilemap(cur_map)
