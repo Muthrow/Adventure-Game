@@ -14,6 +14,7 @@ from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_P
 from game.zplayer import Player
 from game.enemySprite import EnemySprite
 from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
+from game.projectile import Projectile
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -38,6 +39,7 @@ class Director(Window):
         self.enemySprites = SpriteList(use_spatial_hash = False)
         self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
         self.enemySprites.append(self.enemy)
+        self.projectile = Projectile()
 
         #self.tile_map = None
         #self.scene = None
@@ -98,8 +100,8 @@ class Director(Window):
             self.map_num = (self.map_num + 1) % 3
             self.setup()
         if symbol == SPACE:
-            self.player.setSpriteList(self.enemySprites)
-            self.player.attack()
+            self.projectile.setSpriteList(self.enemySprites)
+            self.player.attack(self.projectile)
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == W:
@@ -118,6 +120,7 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
+        self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
@@ -133,6 +136,7 @@ class Director(Window):
         self.wall_physics.update()
         self.water_physics.update()
         self.enemy.update()
+        self.projectile.update(self.player)
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
