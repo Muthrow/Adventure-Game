@@ -49,17 +49,17 @@ class Director(Window):
         self.setup()
 
     def setup(self):
-        layer_options = {
-            "water": {
-                "use_spatial_hash": True,
-            },
-            "lava": {
-                "use_spatial_hash": True,
-            },
-            "obstacle": {
-                "use_spatial_hash": True,
-            },
-        }
+        # layer_options = {
+        #     "water": {
+        #         "use_spatial_hash": True,
+        #     },
+        #     "lava": {
+        #         "use_spatial_hash": True,
+        #     },
+        #     "obstacle": {
+        #         "use_spatial_hash": True,
+        #     },
+        # }
         cur_map = self.maps[self.map_num]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
         # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
@@ -67,6 +67,7 @@ class Director(Window):
         # cur_map.set_doors(self.scene['door'], cur_map.filename)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
+        self.door = arcade.PhysicsEngineSimple(self.player, walls=self.scene['door'])
 
     def inputs(self):
         """Gets user input"""
