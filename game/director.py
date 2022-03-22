@@ -122,6 +122,7 @@ class Director(Window):
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
+        self.scene['foreground'].draw()
         return super().on_draw()
 
     def update(self, delta_time: float):
