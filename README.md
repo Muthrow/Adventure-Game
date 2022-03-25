@@ -1,6 +1,6 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.}
+{!  Do not say in this section that this is college assignment.}
 
 {Provide a description of your team project.  Describe how to use the software.}
 

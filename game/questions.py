@@ -10,6 +10,7 @@ questions = [
 ["How many wives did King Henry VIII have?", ["0", "6", "1", "23"], "6"],
 ["What is the periodic table symbol for the element potassium?", ["Pt", "P", "Pm", "K"], "K"],
 ["What is the name of the main character and narrator of Moby Dick?", ["Ishmael", "Ahab", "Queequeg", "Sherlock"], "Ishmael"],
-["What is the unit of measurement for spiciness?", ["Kelvin", "Scoville", "Burners", "Melville"], "Scoville"]
+["What is the unit of measurement for spiciness?", ["Kelvin", "Scoville", "Burners", "Melville"], "Scoville"],
+["How many tiles are in a sudoku puzzle?", ["15", "33", "27", "81"], "81"]
 
 ]
