@@ -23,6 +23,15 @@
 # Future Work
 
 {Make a list of things that you need to fix, improve, and add in the future.}
+Populate maps with enemies
+Add tiles that trigger the question
+Setup score system
+Display score
+add boss fight
+add camera focus to character
+add change so resolution does not stretch
+
+
 
 * David - /
 * Jace - Enemy interactions

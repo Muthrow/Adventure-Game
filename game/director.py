@@ -51,9 +51,8 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}beast_hero.png", PLAYER_SCALE/2)
         self.enemySprites = SpriteList(use_spatial_hash = False)
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}ghost.png", PLAYER_SCALE/2)
         self.enemySprites.append(self.enemy)
         self.projectile = Projectile()
 
@@ -67,7 +66,6 @@ class Director(Window):
         #had to remove this from super.__init__
         self.wall_physics = None
         self.water_physics = None
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
         self.setup()
 
     def setup(self):

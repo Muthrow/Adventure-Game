@@ -12,7 +12,7 @@ class EnemySprite(Sprite):
         self.vel_x = 1
         self.vel_y = 1
         self.speed = 16
-        self.starttimer = time()
+        self.start_timer = time()
         self.left_limit = 20
         self.right_limit = 180
         self.top_limit = 20
@@ -22,7 +22,6 @@ class EnemySprite(Sprite):
         if self.hitPoints <= 0:
             self.remove_from_sprite_lists()
         self.move()
-        
 
     def move(self):
         if self.center_x < self.left_limit:
@@ -38,7 +37,7 @@ class EnemySprite(Sprite):
             self.center_y = self.bottom_limit
             self.change_y *= -1
 
-        if self.starttimer + 2.5 <= time():   
+        if self.start_timer + 2.5 <= time():   
             dir_x = 0
             dir_y = 0
             direction = random.randint(1, 8)
@@ -65,7 +64,7 @@ class EnemySprite(Sprite):
 
             self.change_x = self.center_x + (dir_x * self.speed)
             self.change_y = self.center_y + (dir_y * self.speed)
-            self.starttimer = time()
+            self.start_timer = time()
 
         if self.center_x != self.change_x:
             if self.center_x < self.change_x:
