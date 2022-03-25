@@ -6,6 +6,7 @@ TODO:
  * map switching
  * foreground layer
 """
+from sqlite3 import Time
 from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
 import arcade
@@ -19,6 +20,7 @@ from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite
 from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
 from game.projectile import Projectile
+
 #import game.constants as c
 #Here is where we will import the classes from other files
 """
@@ -100,7 +102,7 @@ class Director(Window):
             arcade.close_window()
         if symbol == F:
             self.set_fullscreen(not self.fullscreen)
-            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)        
+            self.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         if symbol == W:
             self.player.setDirection(0,1)
         if symbol == A:
@@ -139,12 +141,12 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
-        self.manager.draw()
         self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
         self.scene['foreground'].draw()
+        self.manager.draw()
         return super().on_draw()
 
     def update(self, delta_time: float):
@@ -158,11 +160,23 @@ class Director(Window):
         self.water_physics.update()
         self.enemy.update()
         self.projectile.update(self.player)
+        # check if we walk through a door
         if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
             self.map_num += 1
             self.setup()
-        if len(arcade.check_for_collision_with_list(self.player, self.scene['question'])) >= 1:
-            pass
+        # check if we walk into a question space
+        question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
+        if len(question_list) >= 1:
+            myQ = randint(0, len(qs.questions) - 1)
+            sc = self.score
+            Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+            # question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+            # put pause here
+            if sc == self.score:
+                pass
+            # spawn enemies adn stuff
+            question_list.pop().kill()
+
 
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
