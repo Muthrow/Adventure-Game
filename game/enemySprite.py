@@ -1,22 +1,25 @@
 from arcade import Sprite
 from time import time
 import random
+from game.constants import ENEMY_SCALE, RESOURCE_PATH
+
 
 class EnemySprite(Sprite):
-    def __init__(self, filename, scaling):
-        super().__init__(filename, scaling)
+    def __init__(self, position):
+        super().__init__(filename=f"{RESOURCE_PATH}beast_hero.png", scale=ENEMY_SCALE)
         self.hitPoints = 1
         self.damage = 1
-        self.center_x = 100
-        self.center_y = 100
+        self.center_x = position[0]
+        self.center_y = position[1]
         self.vel_x = 1
         self.vel_y = 1
         self.speed = 16
         self.start_timer = time()
-        self.left_limit = 20
-        self.right_limit = 180
-        self.top_limit = 20
-        self.bottom_limit = 180
+        # self.left_limit = 20
+        # self.right_limit = 80
+        # self.top_limit = 20
+        # self.bottom_limit = 10
+        # print(f'({self.center_x},{self.center_y})')
 
     def update(self):
         if self.hitPoints <= 0:
@@ -24,20 +27,20 @@ class EnemySprite(Sprite):
         self.move()
 
     def move(self):
-        if self.center_x < self.left_limit:
-            self.center_x = self.left_limit
-            self.change_x *= -1
-        if self.center_x > self.right_limit:
-            self.center_x = self.right_limit
-            self.change_x *= -1
-        if self.center_y > self.top_limit:
-            self.center_y = self.top_limit
-            self.change_y *= -1
-        if self.center_y < self.bottom_limit:
-            self.center_y = self.bottom_limit
-            self.change_y *= -1
+        # if self.center_x < self.left_limit:
+        #     self.center_x = self.left_limit
+        #     self.change_x *= -1
+        # if self.center_x > self.right_limit:
+        #     self.center_x = self.right_limit
+        #     self.change_x *= -1
+        # if self.center_y > self.top_limit:
+        #     self.center_y = self.top_limit
+        #     self.change_y *= -1
+        # if self.center_y < self.bottom_limit:
+        #     self.center_y = self.bottom_limit
+        #     self.change_y *= -1
 
-        if self.start_timer + 2.5 <= time():   
+        if self.start_timer + 2.5 <= time():
             dir_x = 0
             dir_y = 0
             direction = random.randint(1, 8)

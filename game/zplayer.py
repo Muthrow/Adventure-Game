@@ -20,6 +20,7 @@ class Player(arcade.Sprite):
     def move(self):
         self.change_x = self.vel_x
         self.change_y = self.vel_y
+        # print(self.position)
 
     def setDirection(self, x, y):
         self.vel_x += x * self.speed
@@ -51,7 +52,7 @@ class Player(arcade.Sprite):
         else:
            self.animationFrame = 0
         self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection][int(self.animationFrame/self.animationSpeed)]}")
-        
+
     def update(self):
         self.move()
         return super().update()

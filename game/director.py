@@ -53,44 +53,22 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}beast_hero.png", PLAYER_SCALE/2)
-        self.enemySprites = SpriteList(use_spatial_hash = False)
-        self.enemySprites.append(self.enemy)
+        self.enemySprites = SpriteList()
         self.projectile = Projectile()
-
-        #self.tile_map = None
-        #self.scene = None
-        # self.tile_map = arcade.load_tilemap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING)
-        # self.tile_map = arcade.TileMap(RESOURCE_PATH + "Maps\\map1.tmj", scaling=MAP_SCALING, layer_options=layer_options)
-        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        # self.physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
-        #, update_rate, antialiasing, screen
-        #had to remove this from super.__init__
         self.wall_physics = None
         self.water_physics = None
         self.setup()
 
     def setup(self):
-        # layer_options = {
-        #     "water": {
-        #         "use_spatial_hash": True,
-        #     },
-        #     "lava": {
-        #         "use_spatial_hash": True,
-        #     },
-        #     "obstacle": {
-        #         "use_spatial_hash": True,
-        #     },
-        # }
         cur_map = self.maps[self.map_num % 3]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
-        # self.tile_map = arcade.TileMap(cur_map.filename, scaling=MAP_SCALING, layer_options=layer_options)
         self.scene = arcade.Scene.from_tilemap(cur_map)
-        # cur_map.set_doors(self.scene['door'], cur_map.filename)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
-        # self.door = arcade.PhysicsEngineSimple(self.player, walls=self.scene['door'])
-
+        self.enemySprites.clear()
+        for position in cur_map.grunt_spawns:
+            self.enemySprites.append(EnemySprite(position))
+            # pass
     def inputs(self):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
@@ -140,7 +118,7 @@ class Director(Window):
         self.scene.draw()
         self.player.update_animation()
         self.player.draw()
-        self.enemy.draw()
+        self.enemySprites.draw()
         self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
@@ -158,7 +136,19 @@ class Director(Window):
         self.player.update()
         self.wall_physics.update()
         self.water_physics.update()
-        self.enemy.update()
+        self.enemySprites.update()
+        for enemy in self.enemySprites:
+            wall = arcade.check_for_collision_with_lists(enemy,[self.scene['obstacle'],self.scene['water'],self.scene['lava']])
+            if len(wall) >= 1:
+                for bump in wall:
+                    if abs(bump.center_x - enemy.center_x) > abs(bump.center_y - enemy.center_y):
+                        enemy.change_x *= -1
+                    elif abs(bump.center_x - enemy.center_x) < abs(bump.center_y - enemy.center_y):
+                        enemy.change_y *= -1
+                    elif abs(bump.center_x - enemy.center_x) == abs(bump.center_y - enemy.center_y):
+                        enemy.change_x *= -1
+                        enemy.change_y *= -1
+
         self.projectile.update(self.player)
         # check if we walk through a door
         if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
