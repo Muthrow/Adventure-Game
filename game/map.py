@@ -21,9 +21,7 @@ class Overworld(Map):
     def __init__(self):
         self.filename = RESOURCE_PATH + "Maps\\map1.tmj"
         super().__init__(map_file=self.filename)
-        print('=',end='')
         self.player_spawn = (269, 80)
-        print('=',end='')
         self.boss_spawns = None
         self.captain_spawns = None
         self.grunt_spawns = [
