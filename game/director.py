@@ -11,6 +11,7 @@ from arcade import SpriteList, View, Sound, Window
 from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
 import arcade
 import arcade.gui
+from numpy import arange
 import game.questions as qs
 from random import randint
 from time import time
@@ -50,11 +51,13 @@ class Director(Window):
                 anchor_y="center_y",
                 child=self.v_box)
         )
+        self.wrong = False
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
         self.enemySprites = SpriteList()
         self.projectile = Projectile()
+        self.question = None
         self.wall_physics = None
         self.water_physics = None
         self.setup()
@@ -69,6 +72,8 @@ class Director(Window):
         for position in cur_map.grunt_spawns:
             self.enemySprites.append(EnemySprite(position))
             # pass
+        myQ = randint(0, len(qs.questions) - 1)
+        self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
     def inputs(self):
         """Gets user input"""
         #This is where we will get the input to the user and store it in a variable to be used
@@ -99,7 +104,7 @@ class Director(Window):
             self.player.attack(self.projectile)
         if symbol == U:
             myQ = randint(0, len(qs.questions) - 1)
-            question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+            self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
 
     def on_key_release(self, symbol: int, modifiers: int):
         if not self.inMenu:
@@ -159,13 +164,22 @@ class Director(Window):
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)
             sc = self.score
-            Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
-            # question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
-            # put pause here
-            if sc == self.score:
-                pass
-            # spawn enemies adn stuff
+            self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.score)
             question_list.pop().kill()
+
+        if self.question.wrong:
+            en_cnt = randint(2,6)
+            for enemy in range(en_cnt):
+                new_enemy = EnemySprite((100,100))
+                invalid = True
+                while invalid:
+                    spawn_x = randint(-100, 100) + self.player.center_x
+                    spawn_y = randint(-100, 100) + self.player.center_y
+                    new_enemy.set_position(spawn_x, spawn_y)
+                    if len(arcade.check_for_collision_with_lists(new_enemy, [self.scene['obstacle'],self.scene['water'],self.scene['lava']])) <= 0:
+                        invalid = False
+                self.enemySprites.append(new_enemy)
+            self.question.wrong = False
 
 
         return super().update(delta_time)
