@@ -5,9 +5,10 @@ from game.constants import ENEMY_SCALE, RESOURCE_PATH
 
 
 class EnemySprite(Sprite):
+
     def __init__(self, position):
         super().__init__(filename=f"{RESOURCE_PATH}beast_hero.png", scale=ENEMY_SCALE)
-        self.hitPoints = 1
+        self.hitPoints = 3
         self.damage = 1
         self.center_x = position[0]
         self.center_y = position[1]
@@ -15,10 +16,11 @@ class EnemySprite(Sprite):
         self.vel_y = 1
         self.speed = 16
         self.start_timer = time()
-        # self.left_limit = 20
-        # self.right_limit = 80
-        # self.top_limit = 20
-        # self.bottom_limit = 10
+        
+        self.left_limit = self.center_x - 100
+        self.right_limit = self.center_x + 100
+        self.top_limit = self.center_y + 100
+        self.bottom_limit = self.center_y - 100
         # print(f'({self.center_x},{self.center_y})')
 
     def update(self):
