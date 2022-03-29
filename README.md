@@ -28,7 +28,6 @@ Add tiles that trigger the question
 Setup score system
 Display score
 add boss fight
-add camera focus to character
 add change so resolution does not stretch
 
 

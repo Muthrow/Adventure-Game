@@ -3,20 +3,20 @@ from time import time
 import random
 
 class EnemySprite(Sprite):
-    def __init__(self, filename, scaling):
-        super().__init__(filename, scaling)
-        self.hitPoints = 1
+    def __init__(self, filename: str = None, scale: float = 1, image_x: float = 0, image_y: float = 0, image_width: float = 0, image_height: float = 0, center_x: float = 0, center_y: float = 0, repeat_count_x: int = 1, repeat_count_y: int = 1, flipped_horizontally: bool = False, flipped_vertically: bool = False, flipped_diagonally: bool = False, mirrored: bool = None, hit_box_algorithm: str = "Simple", hit_box_detail: float = 4.5):
+        super().__init__(filename, 0.5, center_x=center_x, center_y=center_y)
+        self.hitPoints = 3
         self.damage = 1
-        self.center_x = 100
-        self.center_y = 100
+        self.center_x = 500
+        self.center_y = 500
         self.vel_x = 1
         self.vel_y = 1
         self.speed = 16
         self.start_timer = time()
-        self.left_limit = 20
-        self.right_limit = 180
-        self.top_limit = 20
-        self.bottom_limit = 180
+        self.left_limit = self.center_x - 100
+        self.right_limit = self.center_x + 100
+        self.top_limit = self.center_y + 100
+        self.bottom_limit = self.center_y - 100
 
     def update(self):
         if self.hitPoints <= 0:
