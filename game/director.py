@@ -144,12 +144,12 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemy.draw()
-        self.manager.draw()
         self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
         self.scene['foreground'].draw()
+        self.manager.draw()
         return super().on_draw()
 
     def center_camera(self):
