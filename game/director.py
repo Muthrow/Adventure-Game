@@ -164,7 +164,7 @@ class Director(Window):
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)
             sc = self.score
-            self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.score)
+            self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
             question_list.pop().kill()
 
         if self.question.wrong:
