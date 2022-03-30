@@ -14,25 +14,39 @@ class Player(arcade.Sprite):
         self.animationFrame = 0
         self.animationSpeed = 2
         self.spriteList = None
+        self.attacking = False
+        self.saveVel_x = 0
+        self.savevel_y = 0
         #super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y, repeat_count_x, repeat_count_y, flipped_horizontally, flipped_vertically, flipped_diagonally, mirrored, hit_box_algorithm, hit_box_detail)
         super().__init__(filename, 0.5, center_x=center_x, center_y=center_y)
 
     def move(self):
+        if self.vel_x < -1:
+            self.vel_x = -1
+        elif self.vel_x > 1:
+            self.vel_x = 1
+        if self.vel_y < -1:
+            self.vel_y = -1
+        elif self.vel_y > 1:
+            self.vel_y = 1
         self.change_x = self.vel_x
         self.change_y = self.vel_y
 
     def setDirection(self, x, y):
-        self.vel_x += x * self.speed
-        self.vel_y += y * self.speed
-        if self.vel_y < 0:
-            self.playerDirection = 0
-        elif self.vel_y > 0:
-            self.playerDirection = 1
-        elif self.vel_x < 0:
-            self.playerDirection = 2
-        elif self.vel_x > 0:
-            self.playerDirection = 3
-
+        if(not self.attacking):
+            self.vel_x += x * self.speed
+            self.vel_y += y * self.speed
+            if self.vel_y < 0:
+                self.playerDirection = 0
+            elif self.vel_y > 0:
+                self.playerDirection = 1
+            elif self.vel_x < 0:
+                self.playerDirection = 2
+            elif self.vel_x > 0:
+                self.playerDirection = 3
+        else:
+            self.saveVel_x += x * self.speed
+            self.saveVel_y += y * self.speed
     def getHealth(self):
         return self.hitPoints
 
@@ -43,14 +57,29 @@ class Player(arcade.Sprite):
         self.hitPoints -= damage
 
     def update_animation(self):
-        if self.vel_x != 0 or self.vel_y != 0:
+        if self.vel_x != 0 or self.vel_y != 0 or self.attacking:
             if self.animationFrame >= 3 * self.animationSpeed:
                 self.animationFrame = 0
+                if self.attacking:
+                    self.attacking = False
+                    self.vel_x = self.saveVel_x
+                    self.vel_y = self.saveVel_y
+                    if self.vel_y < 0:
+                       self.playerDirection = 0
+                    elif self.vel_y > 0:
+                        self.playerDirection = 1
+                    elif self.vel_x < 0:
+                        self.playerDirection = 2
+                    elif self.vel_x > 0:
+                        self.playerDirection = 3
             else:
                 self.animationFrame += 1
         else:
            self.animationFrame = 0
-        self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection][int(self.animationFrame/self.animationSpeed)]}")
+        if not self.attacking:
+            self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection][int(self.animationFrame/self.animationSpeed)]}")
+        else:
+            self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection + 4][int(self.animationFrame/self.animationSpeed)]}")
         
     def update(self):
         self.move()
@@ -61,6 +90,12 @@ class Player(arcade.Sprite):
 
     def attack(self, projectile):
         projectile.hit()
+        self.attacking = True
+        self.animationFrame = 0
+        self.saveVel_x = self.vel_x
+        self.saveVel_y = self.vel_y
+        self.vel_x = 0
+        self.vel_y = 0
 
     def getDirection(self):
         return self.playerDirection

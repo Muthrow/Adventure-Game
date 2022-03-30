@@ -25,11 +25,11 @@ class Projectile(arcade.Sprite):
         direction = player.getDirection()
 
         if direction == 0:
-            self.center_y -= self.offset
+            self.center_y -= self.offset - 6
         elif direction == 1:
-            self.center_y += self.offset
+            self.center_y += self.offset + 1
         elif direction == 2:
-            self.center_x -= self.offset
+            self.center_x -= self.offset - 3
         elif direction == 3:
-            self.center_x += self.offset
+            self.center_x += self.offset - 3
 
