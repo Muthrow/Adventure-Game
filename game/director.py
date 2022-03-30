@@ -7,7 +7,7 @@ TODO:
  * foreground layer
 """
 from sqlite3 import Time
-from arcade import SpriteList, View, Sound, Window
+from arcade import SpriteList, Window
 from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
 import arcade
 import arcade.gui
@@ -55,14 +55,18 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
+        self.enemy = EnemySprite(f"{RESOURCE_PATH}beast_hero.png", 0.5)
+        self.enemySprites.append(self.enemy)
         self.enemySprites = SpriteList()
         self.projectile = Projectile()
+        self.camera = None
         self.question = None
         self.wall_physics = None
         self.water_physics = None
         self.setup()
 
     def setup(self):
+        self.camera = arcade.Camera(self.width, self.height)
         cur_map = self.maps[self.map_num % 3]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
         self.scene = arcade.Scene.from_tilemap(cur_map)
@@ -95,7 +99,8 @@ class Director(Window):
         if symbol == D:
             self.player.setDirection(1,0)
         if symbol == Q:
-            print(self.player.position)
+            print(str(self.player.getPosition()))
+            print(str(self.projectile.getPosition()))
         if symbol == M:
             self.map_num = (self.map_num + 1) % 3
             self.setup()
@@ -120,6 +125,7 @@ class Director(Window):
 
     def on_draw(self):
         self.clear()
+        self.camera.use()
         self.scene.draw()
         self.player.update_animation()
         self.player.draw()
@@ -131,6 +137,19 @@ class Director(Window):
         self.scene['foreground'].draw()
         self.manager.draw()
         return super().on_draw()
+
+    def center_camera(self):
+        screen_center_x = self.player.center_x - (self.camera.viewport_width / 2)
+        screen_center_y = self.player.center_y - (self.camera.viewport_height / 2)
+
+        # Don't let camera travel past 0
+        if screen_center_x < 0:
+            screen_center_x = 0
+        if screen_center_y < 0:
+            screen_center_y = 0
+        player_centered = screen_center_x, screen_center_y
+
+        self.camera.move_to(player_centered)
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
@@ -182,9 +201,10 @@ class Director(Window):
             self.question.wrong = False
 
 
+        self.center_camera()
         return super().update(delta_time)
         #Here is where we will use and process the variable containing the previous input
 
     def outputs(self):
         """Displays the game information that was updated in the updates function"""
-        #We will add anything to be displayed that was updated in this function
+        #We will add anything to be displayed that was updated in this functionf
