@@ -130,7 +130,7 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemySprites.draw()
-        self.projectile.draw()
+        # self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
