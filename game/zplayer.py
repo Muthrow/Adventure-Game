@@ -18,7 +18,7 @@ class Player(arcade.Sprite):
         self.saveVel_x = 0
         self.savevel_y = 0
         #super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y, repeat_count_x, repeat_count_y, flipped_horizontally, flipped_vertically, flipped_diagonally, mirrored, hit_box_algorithm, hit_box_detail)
-        super().__init__(filename, 0.5, center_x=center_x, center_y=center_y)
+        super().__init__(filename, PLAYER_SCALE, center_x=center_x, center_y=center_y)
 
     def move(self):
         if self.vel_x < -1:
