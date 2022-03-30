@@ -11,8 +11,8 @@ class Dialogue():
             message_text=(text),
             callback=self.onAnswer,
             buttons=answers
-        )        
-
+        )
+        self.wrong = False
         manager.add(self.message)
 
 
@@ -21,4 +21,4 @@ class Dialogue():
         if button == self.correct:
             self.score += 100
         else:
-            pass
+            self.wrong = True

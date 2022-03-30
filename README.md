@@ -1,6 +1,6 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.}
+{!  Do not say in this section that this is college assignment.}
 
 {Provide a description of your team project.  Describe how to use the software.}
 
@@ -23,6 +23,14 @@
 # Future Work
 
 {Make a list of things that you need to fix, improve, and add in the future.}
+Populate maps with enemies
+Add tiles that trigger the question
+Setup score system
+Display score
+add boss fight
+add change so resolution does not stretch
+
+
 
 * David - /
 * Jace - Enemy interactions

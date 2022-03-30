@@ -31,6 +31,7 @@ class Player(arcade.Sprite):
             self.vel_y = 1
         self.change_x = self.vel_x
         self.change_y = self.vel_y
+        # print(self.position)
 
     def setDirection(self, x, y):
         if(not self.attacking):

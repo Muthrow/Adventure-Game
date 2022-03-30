@@ -33,3 +33,5 @@ class Projectile(arcade.Sprite):
         elif direction == 3:
             self.center_x += self.offset - 3
 
+    def getPosition(self):
+        return[self.center_x, self.center_y]
