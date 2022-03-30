@@ -55,8 +55,8 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
-        self.enemy = EnemySprite(f"{RESOURCE_PATH}beast_hero.png", 0.5)
-        self.enemySprites.append(self.enemy)
+        # self.enemy = EnemySprite()
+        # self.enemySprites.append(self.enemy)
         self.enemySprites = SpriteList()
         self.projectile = Projectile()
         self.camera = None
