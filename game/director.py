@@ -7,8 +7,9 @@ TODO:
  * foreground layer
 """
 from sqlite3 import Time
-from arcade import SpriteList, Window
+from arcade import SpriteList, Window, draw_text
 from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
+from arcade.color import WHITE
 import arcade
 import arcade.gui
 from numpy import arange
@@ -18,7 +19,7 @@ from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
 from game.dialogue import Dialogue
-from game.enemySprite import EnemySprite
+from game.enemySprite import EnemySprite, Boss
 from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
 from game.projectile import Projectile
 
@@ -55,6 +56,7 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
+        self.boss = None
         # self.enemy = EnemySprite()
         # self.enemySprites.append(self.enemy)
         self.enemySprites = SpriteList()
@@ -72,17 +74,18 @@ class Director(Window):
         self.scene = arcade.Scene.from_tilemap(cur_map)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
-        #self.enemySprites.clear()
+        self.enemySprites.clear()
+        if self.map_num % 3 == 2:
+            self.boss = Boss((450,450))
+            self.enemySprites.append(self.boss)
         for position in cur_map.grunt_spawns:
-            self.enemySprites.append(EnemySprite(position))
-            # pass
+            # self.enemySprites.append(EnemySprite(position))
+            pass
         myQ = randint(0, len(qs.questions) - 1)
         self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
-    def inputs(self):
-        """Gets user input"""
-        #This is where we will get the input to the user and store it in a variable to be used
-        # self.on_key_press
-        pass
+
+    def input(self):
+        return
 
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
@@ -130,12 +133,13 @@ class Director(Window):
         self.player.update_animation()
         self.player.draw()
         self.enemySprites.draw()
-        self.projectile.draw()
+        # self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
         self.scene['foreground'].draw()
         self.manager.draw()
+        draw_text(f"Score: {self.score} | Player Health: {self.player.getHealth()}", 5, 5, WHITE, 14)
         return super().on_draw()
 
     def center_camera(self):

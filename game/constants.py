@@ -1,12 +1,12 @@
 from os import path
 
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 960
+SCREEN_HEIGHT = 960
 SCREEN_TITLE = "Game Title"
 RESOURCE_PATH = f"{path.dirname(path.abspath(__file__))}/resources/"    #Might need to be changed
-MAP_SCALING = .55
-PLAYER_SCALE = .8
-ENEMY_SCALE = PLAYER_SCALE/2
+MAP_SCALING = 1.1
+PLAYER_SCALE = 1.0
+ENEMY_SCALE = PLAYER_SCALE * 0.9
 PLAYER_SPEED = 1
 PLAYER_UP = ["Player/exec1_up (2).png", "Player/exec1_up (1).png",
  "Player/exec1_up (2).png", "Player/exec1_up (3).png"]

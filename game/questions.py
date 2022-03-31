@@ -60,6 +60,7 @@ questions = [
 ["What degree is a right angle??", ["45", "90", "180", "360"], "90"],
 ["How many colors are in a rainbow?", ["5", "6", "7", "8"], "7"],
 ["How much is a Bakers Dozen?", ["11", "12", "13", "14"], "13"],
-["How many pints are in a gallon", ["8", "10", "12", "14"], "8"]
-
+["How many pints are in a gallon?", ["8", "10", "12", "14"], "8"],
+["When was Jurassic Park Released?", ["1973","1983", "1993","2003"], "1993"],
+["What is the brightest object in the Universe?", ["White Dwarf Stars", "Neutron Stars", "Quasars", "Gamma Ray Bursts"]]
 ]

@@ -21,21 +21,21 @@ class Overworld(Map):
     def __init__(self):
         self.filename = RESOURCE_PATH + "Maps\\map1.tmj"
         super().__init__(map_file=self.filename)
-        self.player_spawn = (269, 80)
+        self.player_spawn = (538, 160)
         self.boss_spawns = None
         self.captain_spawns = None
         self.grunt_spawns = [
-            (742.0, 554),
-            (799.0, 725),
-            (478.0, 724),
-            (294.0, 510),
-            (402.0, 378),
-            (126.0, 273),
-            (135.0, 630),
-            (123.0, 750),
-            (258.0, 684),
-            (231.0, 855),
-            (90.0, 831)
+            (1484.0, 1108),
+            (1598.0, 1450),
+            (956.0, 1448),
+            (588.0, 1020),
+            (804.0, 756),
+            (252.0, 546),
+            (270.0, 1260),
+            (246.0, 1500),
+            (516.0, 1368),
+            (462.0, 1710),
+            (180.0, 1662)
         ]
         self.door_list = list()
         self.set_doors(self.sprite_lists['door'], self.filename)
@@ -45,25 +45,25 @@ class Cross_Dungeon(Map):
     def __init__(self):
         self.filename = RESOURCE_PATH + "Maps\\map2.tmj"
         super().__init__(map_file=self.filename)
-        self.player_spawn = (100, 854)
+        self.player_spawn = (200, 1708)
         self.boss_spawns = None
         self.captain_spawns = None
         self.grunt_spawns = [
-            (117.0, 585),
-            (333.0, 783),
-            (550.0, 756),
-            (787.0, 783),
-            (790.0, 522),
-            (778.0, 351),
-            (718.0, 126),
-            (523.0, 111),
-            (340.0, 46),
-            (238.0, 154),
-            (70.0, 172),
-            (349.0, 358),
-            (460.0, 280),
-            (568.0, 415),
-            (421.0, 526)
+            (234.0, 1170),
+            (666.0, 1566),
+            (1100.0, 1512),
+            (1574.0, 1566),
+            (1580.0, 1044),
+            (1556.0, 702),
+            (1436.0, 452),
+            (1046.0, 222),
+            (680.0, 92),
+            (476.0, 308),
+            (140.0, 344),
+            (698.0, 716),
+            (920.0, 560),
+            (1136.0, 830),
+            (842.0, 1052)
         ]
         self.door_list = list()
         self.set_doors(self.sprite_lists['door'], self.filename)
@@ -74,24 +74,24 @@ class Other_Dungeon(Map):
     def __init__(self):
         self.filename = RESOURCE_PATH + "Maps\\map3.tmj"
         super().__init__(map_file=self.filename)
-        self.player_spawn = (46, 854)
+        self.player_spawn = (92, 1708)
         self.boss_spawns = None
         self.captain_spawns = None
         self.grunt_spawns = [
-            (91.0, 724),
-            (91.0, 607),
-            (298.0, 805),
-            (552.0, 695),
-            (660.0, 782),
-            (768.0, 596),
-            (510.0, 385.75),
-            (366.0, 502.75),
-            (456.0, 598.75),
-            (324.0, 289.75),
-            (138.0, 301.75),
-            (327.0, 103.75),
-            (766.0, 277.75),
-            (730.0, 130.75)
+            (182.0, 1448),
+            (182.0, 1214),
+            (596.0, 1610),
+            (1104.0, 1390),
+            (1320.0, 1564),
+            (1536.0, 1192),
+            (1020.0, 771.5),
+            (732.0, 1005.5),
+            (912.0, 1197.5),
+            (648.0, 579.5),
+            (276.0, 603.5),
+            (654.0, 207.5),
+            (1532.0, 555.5),
+            (1460.0, 261.5)
         ]
         self.door_list = list()
         self.set_doors(self.sprite_lists['door'], self.filename)
