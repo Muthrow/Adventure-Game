@@ -27,6 +27,14 @@ class EnemySprite(Sprite):
         self.bottom_limit = self.center_y - 100
         # print(f'({self.center_x},{self.center_y})')
 
+    def setPlayer(self, player):
+        self.player = player
+
+    def hit(self):
+        collisionList = self.collides_with_list(self.player)
+        if len(collisionList) != 0:
+            collisionList[0].onHit()
+
     def update(self):
         if self.hitPoints <= 0:
             self.remove_from_sprite_lists()
