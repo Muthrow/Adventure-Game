@@ -128,7 +128,6 @@ class Director(Window):
         self.clear()
         self.camera.use()
         self.scene.draw()
-        draw_text(f"Score: {self.score} | Player Health: {self.player.getHealth()}", self.player.center_x - self.window.width/2 + 10, self.player.center_y - self.window.height/2 + 20, WHITE, 14)
         self.player.update_animation()
         self.player.draw()
         self.enemySprites.draw()
@@ -138,6 +137,7 @@ class Director(Window):
         #self.castle.draw()
         self.scene['foreground'].draw()
         self.manager.draw()
+        draw_text(f"Score: {self.score} | Player Health: {self.player.getHealth()}", 5, 5, WHITE, 14)
         return super().on_draw()
 
     def center_camera(self):
