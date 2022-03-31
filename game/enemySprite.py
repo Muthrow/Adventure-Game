@@ -1,13 +1,17 @@
+from fileinput import filename
+from turtle import position
 from arcade import Sprite
 from time import time
 import random
 from game.constants import ENEMY_SCALE, RESOURCE_PATH
+from game.dialogue import Dialogue
+import game.questions as qs
 
 
 class EnemySprite(Sprite):
 
-    def __init__(self, position):
-        super().__init__(filename=f"{RESOURCE_PATH}beast_hero.png", scale=ENEMY_SCALE)
+    def __init__(self, position, filename=f"{RESOURCE_PATH}beast_hero.png"):
+        super().__init__(filename=filename, scale=ENEMY_SCALE)
         self.hitPoints = 3
         self.damage = 1
         self.center_x = position[0]
@@ -16,7 +20,7 @@ class EnemySprite(Sprite):
         self.vel_y = 1
         self.speed = 16
         self.start_timer = time()
-        
+
         self.left_limit = self.center_x - 100
         self.right_limit = self.center_x + 100
         self.top_limit = self.center_y + 100
@@ -98,3 +102,22 @@ class EnemySprite(Sprite):
 
     def onHit(self, damage = 1):
         self.hitPoints -= damage
+
+
+class Boss(EnemySprite):
+    def __init__(self, position):
+        super().__init__(filename=f"{RESOURCE_PATH}boss.png", position=position)
+        self.scale = self.scale*0.4
+
+    def ask(self, manager, score):
+        myQ = random.randint(0, len(qs.questions) - 1)
+        question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], manager, score)
+        return
+
+    def onHit(self, takeDamage=False, damage=1, manager=None, score=None):
+        print("ouch")
+        if takeDamage:
+            self.ask(manager, score)
+            return super().onHit(damage)
+        else:
+            return
