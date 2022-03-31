@@ -72,7 +72,7 @@ class Director(Window):
         self.scene = arcade.Scene.from_tilemap(cur_map)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
-        self.enemySprites.clear()
+        #self.enemySprites.clear()
         for position in cur_map.grunt_spawns:
             self.enemySprites.append(EnemySprite(position))
             # pass
