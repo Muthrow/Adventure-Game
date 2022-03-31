@@ -7,8 +7,9 @@ TODO:
  * foreground layer
 """
 from sqlite3 import Time
-from arcade import SpriteList, Window
+from arcade import SpriteList, Window, draw_text
 from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
+from arcade.color import WHITE
 import arcade
 import arcade.gui
 from numpy import arange
@@ -136,6 +137,7 @@ class Director(Window):
         #self.castle.draw()
         self.scene['foreground'].draw()
         self.manager.draw()
+        draw_text(f"Score: {self.score} | Player Health: {self.player.getHealth()}", 5, 5, WHITE, 14)
         return super().on_draw()
 
     def center_camera(self):
