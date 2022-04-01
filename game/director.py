@@ -179,6 +179,7 @@ class Director(Window):
             self.map_num += 1
             self.setup()
         # check if we walk into a question space
+        self.score = Dialogue.getScore()
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)

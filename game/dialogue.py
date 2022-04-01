@@ -15,10 +15,11 @@ class Dialogue():
         self.wrong = False
         manager.add(self.message)
 
-
-
     def onAnswer(self, button):
         if button == self.correct:
             self.score += 100
         else:
             self.wrong = True
+            
+    def getScore(self):
+        return self.score
