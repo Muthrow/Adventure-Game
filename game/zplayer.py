@@ -87,6 +87,7 @@ class Player(arcade.Sprite):
             self.remove_from_sprite_lists()
         self.move()
         return super().update()
+        self.update_animation()
 
     def setSpriteList(self, spriteList):
         self.spriteList = spriteList

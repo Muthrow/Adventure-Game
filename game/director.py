@@ -132,7 +132,6 @@ class Director(Window):
         self.clear()
         self.camera.use()
         self.scene.draw()
-        self.player.update_animation()
         self.player.draw()
         self.enemySprites.draw()
         # self.projectile.draw()
