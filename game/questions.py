@@ -62,5 +62,5 @@ questions = [
 ["How much is a Bakers Dozen?", ["11", "12", "13", "14"], "13"],
 ["How many pints are in a gallon?", ["8", "10", "12", "14"], "8"],
 ["When was Jurassic Park Released?", ["1973","1983", "1993","2003"], "1993"],
-["What is the brightest object in the Universe?", ["White Dwarf Stars", "Neutron Stars", "Quasars", "Gamma Ray Bursts"]]
+["What is the brightest object in the Universe?", ["White Dwarf Stars", "Neutron Stars", "Quasars", "Gamma Ray Bursts"], "Quasars"]
 ]
