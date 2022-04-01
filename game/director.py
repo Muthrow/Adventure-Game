@@ -114,7 +114,7 @@ class Director(Window):
             myQ = randint(0, len(qs.questions) - 1)
             self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
         if symbol == P:
-            self.paused = not self.paused
+            self.question.paused = not self.question.paused
 
     def on_key_release(self, symbol: int, modifiers: int):
         if not self.inMenu:
@@ -158,12 +158,12 @@ class Director(Window):
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
-        self.score = Dialogue.getScore()
         self.player.setSpriteList(self.enemySprites)
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)
             self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+            self.score = self.question.getScore()
             question_list.pop().kill()
         if not self.question.paused:
             self.scene.update()

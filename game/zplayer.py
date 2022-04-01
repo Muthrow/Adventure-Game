@@ -93,8 +93,8 @@ class Player(arcade.Sprite):
             self.collision = self.collides_with_list(self.spriteList)
             if len(self.collision) != 0:
                 self.onHit(self.collision[0].onHit())
-        return super().update()
         self.update_animation()
+        return super().update()
 
     def setSpriteList(self, spriteList):
         self.spriteList = spriteList
