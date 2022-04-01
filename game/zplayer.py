@@ -89,7 +89,20 @@ class Player(arcade.Sprite):
         if self.spriteList != None:
             self.collision = self.collides_with_list(self.spriteList)
             if len(self.collision) != 0:
-                self.onHit(self.collision[0].onHit())
+                self.onHit()
+                self.collision[0].onHit()
+                if self.center_x - self.collision[0].center_x > 0:
+                    self.center_x += self.height
+                elif self.center_x - self.collision[0].center_x < 0:
+                    self.center_x -= self.height
+
+                if self.center_y - self.collision[0].center_y > 0:
+                    self.center_y += self.width
+                elif self.center_y - self.collision[0].center_y < 0:
+                    self.center_y -= self.width
+
+
+
         self.update_animation()
         return super().update()
 
