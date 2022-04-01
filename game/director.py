@@ -158,6 +158,7 @@ class Director(Window):
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
+        self.score = Dialogue.getScore()
         self.player.setSpriteList(self.enemySprites)
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
