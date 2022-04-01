@@ -1,9 +1,10 @@
+import arcade
 from fileinput import filename
 from turtle import position
 from arcade import Sprite
 from time import time
 import random
-from game.constants import ENEMY_SCALE, RESOURCE_PATH
+from game.constants import ENEMY_SCALE, RESOURCE_PATH, ENEMY_SPRITES, BOSS_SPRITES
 from game.dialogue import Dialogue
 import game.questions as qs
 
@@ -20,6 +21,10 @@ class EnemySprite(Sprite):
         self.vel_y = 1
         self.speed = 16
         self.start_timer = time()
+        self.direction = 0
+        self.sprites = ENEMY_SPRITES
+        self.animationFrame = 0
+        self.animationSpeed = 2
 
         self.left_limit = self.center_x - 100
         self.right_limit = self.center_x + 100
@@ -39,6 +44,7 @@ class EnemySprite(Sprite):
         if self.hitPoints <= 0:
             self.remove_from_sprite_lists()
         self.move()
+        self.update_animation()
 
     def move(self):
         # if self.center_x < self.left_limit:
@@ -60,22 +66,30 @@ class EnemySprite(Sprite):
             direction = random.randint(1, 8)
             if direction == 1:
                 dir_y = 1
+                self.direction = 1
             elif direction == 2:
                 dir_x = 1
                 dir_y = 1
+                self.direction = 3
             elif direction == 3:
                 dir_x = 1
+                self.direction = 3
             elif direction == 4:
+                self.direction = 2
                 dir_x = -1
                 dir_y = -1
             elif direction == 5:
+                self.direction = 0
                 dir_y = -1
             elif direction == 6:
+                self.direction = 2
                 dir_x = -1
                 dir_y = 1
             elif direction == 7:
+                self.direction = 2
                 dir_x = -1
             elif direction == 8:
+                self.direction = 3
                 dir_x = 1
                 dir_y = -1
 
@@ -97,6 +111,15 @@ class EnemySprite(Sprite):
             elif self.center_y > self.change_y:
                 self.center_y -= self.vel_y
 
+    def update_animation(self):
+        if self.vel_x != 0 or self.vel_y != 0:
+            if self.animationFrame >= 3 * self.animationSpeed:
+                self.animationFrame = 0
+            else:
+                self.animationFrame += 1
+        else:
+            self.animationFrame = 0
+        self.texture = arcade.load_texture(f"{RESOURCE_PATH}{self.sprites[self.direction][int(self.animationFrame/self.animationSpeed)]}")
 
     def setDirection(self, x, y):
         self.vel_x += x * self.speed
@@ -129,3 +152,6 @@ class Boss(EnemySprite):
             return super().onHit(damage)
         else:
             return
+
+    def update_animation(self):
+        return
