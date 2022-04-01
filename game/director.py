@@ -20,7 +20,7 @@ from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_P
 from game.zplayer import Player
 from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite, Boss
-from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
+from game.map import Boss_Arena, Cross_Dungeon, Other_Dungeon, Overworld, Map
 from game.projectile import Projectile
 
 #import game.constants as c
@@ -34,7 +34,7 @@ class Director(Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, fullscreen=False)
 
-        self.maps = [Overworld(), Cross_Dungeon(), Other_Dungeon()]
+        self.maps = [Overworld(), Cross_Dungeon(), Other_Dungeon(), Boss_Arena()]
         self.map_num = 0
         #Define attributes here
         self.keep_playing = True
@@ -69,13 +69,13 @@ class Director(Window):
 
     def setup(self):
         self.camera = arcade.Camera(self.width, self.height)
-        cur_map = self.maps[self.map_num % 3]
+        cur_map = self.maps[self.map_num % 4]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
         self.scene = arcade.Scene.from_tilemap(cur_map)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
         #self.enemySprites.clear()
-        if self.map_num % 3 == 2:
+        if self.map_num % 4 == 3:
             self.boss = Boss((450,450))
             self.enemySprites.append(self.boss)
         for position in cur_map.grunt_spawns:

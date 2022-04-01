@@ -96,3 +96,14 @@ class Other_Dungeon(Map):
         self.door_list = list()
         self.set_doors(self.sprite_lists['door'], self.filename)
         print('======= Done')
+
+class Boss_Arena(Map):
+    def __init__(self):
+        self.filename = RESOURCE_PATH + "Maps\\map4.tmj"
+        super().__init__(map_file=self.filename)
+        self.player_spawn = (92, 1708)
+        self.boss_spawns = None
+        self.captain_spawns = None
+        self.door_list = list()
+        self.set_doors(self.sprite_lists['door'], self.filename)
+        print('======= Done')
