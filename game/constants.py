@@ -36,3 +36,4 @@ LAYER_OPTIONS = {
         "use_spatial_hash": True,
         },
     }
+AGGRO_DISTANCE = 200

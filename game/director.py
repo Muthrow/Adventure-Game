@@ -16,7 +16,7 @@ from numpy import arange
 import game.questions as qs
 from random import randint
 from time import time
-from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
+from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE, AGGRO_DISTANCE
 from game.zplayer import Player
 from game.dialogue import Dialogue
 from game.enemySprite import EnemySprite, Boss
@@ -79,8 +79,8 @@ class Director(Window):
             self.boss = Boss((450,450))
             self.enemySprites.append(self.boss)
         for position in cur_map.grunt_spawns:
-            # self.enemySprites.append(EnemySprite(position))
-            pass
+            self.enemySprites.append(EnemySprite(position))
+            # pass
         myQ = randint(0, len(qs.questions) - 1)
         self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
 
@@ -159,7 +159,7 @@ class Director(Window):
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
-        
+
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)
@@ -185,6 +185,11 @@ class Director(Window):
                         elif abs(bump.center_x - enemy.center_x) == abs(bump.center_y - enemy.center_y):
                             enemy.change_x *= -1
                             enemy.change_y *= -1
+                if arcade.get_distance_between_sprites(enemy, self.player) <= AGGRO_DISTANCE:
+                    enemy.aggro = True
+                    enemy.setChase(self.player.position)
+                else:
+                    enemy.aggro = False
 
             self.projectile.update(self.player)
             # check if we walk through a door
