@@ -44,19 +44,6 @@ class EnemySprite(Sprite):
         self.update_animation()
 
     def move(self):
-        # if self.center_x < self.left_limit:
-        #     self.center_x = self.left_limit
-        #     self.change_x *= -1
-        # if self.center_x > self.right_limit:
-        #     self.center_x = self.right_limit
-        #     self.change_x *= -1
-        # if self.center_y > self.top_limit:
-        #     self.center_y = self.top_limit
-        #     self.change_y *= -1
-        # if self.center_y < self.bottom_limit:
-        #     self.center_y = self.bottom_limit
-        #     self.change_y *= -1
-
         if self.start_timer + 2.5 <= time():
             dir_x = 0
             dir_y = 0
