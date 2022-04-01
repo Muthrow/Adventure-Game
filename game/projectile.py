@@ -7,7 +7,7 @@ class Projectile(arcade.Sprite):
         filename = f"{RESOURCE_PATH}Player\exec1_axehead.png"
         self.damage = 1
         self.spriteList = None
-        self.offset = 8
+        self.offset = 12
         super().__init__(filename, 0.5, center_x=center_x, center_y=center_y)
 
     def setSpriteList(self, spriteList):
