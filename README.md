@@ -12,32 +12,24 @@
 
 # Collaborators
 
-{Provide a list of everyone on your team}
+* David Slone
+* Jace Wilderman  
+* Joel Jacobe
+* Zack Pedersen
+* Cameron Vinyard
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [Open Game Art](https://opengameart.org/)
 * [finabossblues artwork](https://finalbossblues.itch.io/)
+* [Python Arcade API](https://api.arcade.academy/en/latest/)
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-Populate maps with enemies
-Add tiles that trigger the question
-Setup score system
-Display score
-add boss fight
-add change so resolution does not stretch
-
-
-
-* David - /
-* Jace - Enemy interactions
-* Joel - Finish Enemies (Pathfinding, basic AI stuff)
-* Zack - Map Switching
-* Cameron - Dialog Boxes
-* All - Bring an educational mechanic idea
+* Throwing Knives
+* Title/End Screen
+* Enemies chase player
+* More systems for education
 
 # Areas
 
@@ -49,8 +41,7 @@ add change so resolution does not stretch
 # Style Elements
 
 * Dungeon Crawler
-* Puzzles
 * Quizes
 * Punishment/Reward System
-* Pushable Blocks
 * Boss enemies
+* Animations
