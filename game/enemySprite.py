@@ -13,7 +13,7 @@ class EnemySprite(Sprite):
 
     def __init__(self, position, filename=f"{RESOURCE_PATH}beast_hero.png"):
         super().__init__(filename=filename, scale=ENEMY_SCALE)
-        self.hitPoints = 3
+        self.hitPoints = 1
         self.damage = 1
         self.center_x = position[0]
         self.center_y = position[1]

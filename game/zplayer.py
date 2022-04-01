@@ -21,14 +21,14 @@ class Player(arcade.Sprite):
         super().__init__(filename, PLAYER_SCALE, center_x=center_x, center_y=center_y)
 
     def move(self):
-        if self.vel_x < -1:
-            self.vel_x = -1
-        elif self.vel_x > 1:
-            self.vel_x = 1
-        if self.vel_y < -1:
-            self.vel_y = -1
-        elif self.vel_y > 1:
-            self.vel_y = 1
+        if self.vel_x < -self.speed:
+            self.vel_x = -self.speed
+        elif self.vel_x > self.speed:
+            self.vel_x = self.speed
+        if self.vel_y < -self.speed:
+            self.vel_y = -self.speed
+        elif self.vel_y > self.speed:
+            self.vel_y = self.speed
         self.change_x = self.vel_x
         self.change_y = self.vel_y
         # print(self.position)
@@ -90,8 +90,9 @@ class Player(arcade.Sprite):
             self.collision = self.collides_with_list(self.spriteList)
             if len(self.collision) != 0:
                 self.onHit(self.collision[0].onHit())
-        return super().update()
         self.update_animation()
+        return super().update()
+
 
     def setSpriteList(self, spriteList):
         self.spriteList = spriteList
