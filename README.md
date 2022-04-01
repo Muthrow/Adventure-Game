@@ -21,7 +21,7 @@
 # Useful Websites
 
 * [Open Game Art](https://opengameart.org/)
-* [finabossblues artwork](https://finalbossblues.itch.io/)
+* [Finabossblues Artwork](https://finalbossblues.itch.io/)
 * [Python Arcade API](https://api.arcade.academy/en/latest/)
 
 # Future Work
