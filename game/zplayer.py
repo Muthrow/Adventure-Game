@@ -29,14 +29,14 @@ class Player(arcade.Sprite):
             self.vel_y = -1
         elif self.vel_y > 1:
             self.vel_y = 1
-        self.change_x = self.vel_x
-        self.change_y = self.vel_y
+        self.change_x = self.vel_x * self.speed
+        self.change_y = self.vel_y * self.speed
         # print(self.position)
 
     def setDirection(self, x, y):
         if(not self.attacking):
-            self.vel_x += x * self.speed
-            self.vel_y += y * self.speed
+            self.vel_x += x 
+            self.vel_y += y 
             if self.vel_y < 0:
                 self.playerDirection = 0
             elif self.vel_y > 0:
