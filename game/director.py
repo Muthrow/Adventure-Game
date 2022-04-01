@@ -166,6 +166,8 @@ class Director(Window):
             myQ = randint(0, len(qs.questions) - 1)
             self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
             question_list.pop().kill()
+        if self.question.score != self.score:
+            self.score = self.question.score
         if not self.question.paused:
             self.scene.update()
             # self.ground.update()
