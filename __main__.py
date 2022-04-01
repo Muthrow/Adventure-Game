@@ -16,4 +16,10 @@ if __name__ == "__main__":
  TODO: Add Boss
  TODO: Line of Sight
  TODO: Border bug on map 1
+
+
+ David - Boss Map
+ Cameron - Pause
+ Zack - Boss class
+ Jace - Enemy chasing
 """

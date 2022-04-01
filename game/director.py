@@ -7,8 +7,9 @@ TODO:
  * foreground layer
 """
 from sqlite3 import Time
-from arcade import SpriteList, Window
-from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U
+from arcade import SpriteList, Window, draw_text
+from arcade.key import ESCAPE, F, W, A, S, D, SPACE, M, Q, U, P
+from arcade.color import WHITE
 import arcade
 import arcade.gui
 from numpy import arange
@@ -18,7 +19,7 @@ from time import time
 from game.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_TITLE, RESOURCE_PATH, MAP_SCALING, PLAYER_SCALE
 from game.zplayer import Player
 from game.dialogue import Dialogue
-from game.enemySprite import EnemySprite
+from game.enemySprite import EnemySprite, Boss
 from game.map import Cross_Dungeon, Other_Dungeon, Overworld, Map
 from game.projectile import Projectile
 
@@ -55,6 +56,7 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
+        self.boss = None
         # self.enemy = EnemySprite()
         # self.enemySprites.append(self.enemy)
         self.enemySprites = SpriteList()
@@ -72,17 +74,18 @@ class Director(Window):
         self.scene = arcade.Scene.from_tilemap(cur_map)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
-        self.enemySprites.clear()
+        #self.enemySprites.clear()
+        if self.map_num % 3 == 2:
+            self.boss = Boss((450,450))
+            self.enemySprites.append(self.boss)
         for position in cur_map.grunt_spawns:
-            self.enemySprites.append(EnemySprite(position))
-            # pass
+            # self.enemySprites.append(EnemySprite(position))
+            pass
         myQ = randint(0, len(qs.questions) - 1)
         self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
-    def inputs(self):
-        """Gets user input"""
-        #This is where we will get the input to the user and store it in a variable to be used
-        # self.on_key_press
-        pass
+
+    def input(self):
+        return
 
     def on_key_press(self, symbol, modifiers):
         if symbol == ESCAPE:
@@ -110,6 +113,8 @@ class Director(Window):
         if symbol == U:
             myQ = randint(0, len(qs.questions) - 1)
             self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
+        if symbol == P:
+            self.paused = not self.paused
 
     def on_key_release(self, symbol: int, modifiers: int):
         if not self.inMenu:
@@ -127,15 +132,15 @@ class Director(Window):
         self.clear()
         self.camera.use()
         self.scene.draw()
-        self.player.update_animation()
         self.player.draw()
         self.enemySprites.draw()
-        self.projectile.draw()
+        # self.projectile.draw()
         #self.ground.draw()
         #self.island.draw()
         #self.castle.draw()
         self.scene['foreground'].draw()
         self.manager.draw()
+        draw_text(f"Score: {self.score} | Player Health: {self.player.getHealth()}", 5, 5, WHITE, 14)
         return super().on_draw()
 
     def center_camera(self):
@@ -153,39 +158,40 @@ class Director(Window):
 
     def update(self, delta_time: float):
         """Updates the game every tick"""
-        self.scene.update()
-        # self.ground.update()
-        # self.obstacle.update()
-        # self.water.update()
-        self.player.update()
-        self.wall_physics.update()
-        self.water_physics.update()
-        self.enemySprites.update()
-        for enemy in self.enemySprites:
-            wall = arcade.check_for_collision_with_lists(enemy,[self.scene['obstacle'],self.scene['water'],self.scene['lava']])
-            if len(wall) >= 1:
-                for bump in wall:
-                    if abs(bump.center_x - enemy.center_x) > abs(bump.center_y - enemy.center_y):
-                        enemy.change_x *= -1
-                    elif abs(bump.center_x - enemy.center_x) < abs(bump.center_y - enemy.center_y):
-                        enemy.change_y *= -1
-                    elif abs(bump.center_x - enemy.center_x) == abs(bump.center_y - enemy.center_y):
-                        enemy.change_x *= -1
-                        enemy.change_y *= -1
-
-        self.projectile.update(self.player)
-        # check if we walk through a door
-        if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
-            self.map_num += 1
-            self.setup()
-        # check if we walk into a question space
         self.score = Dialogue.getScore()
+        self.player.setSpriteList(self.enemySprites)
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
             myQ = randint(0, len(qs.questions) - 1)
-            sc = self.score
             self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
             question_list.pop().kill()
+        if not self.question.paused:
+            self.scene.update()
+            # self.ground.update()
+            # self.obstacle.update()
+            # self.water.update()
+            self.player.update()
+            self.wall_physics.update()
+            self.water_physics.update()
+            self.enemySprites.update()
+            for enemy in self.enemySprites:
+                wall = arcade.check_for_collision_with_lists(enemy,[self.scene['obstacle'],self.scene['water'],self.scene['lava']])
+                if len(wall) >= 1:
+                    for bump in wall:
+                        if abs(bump.center_x - enemy.center_x) > abs(bump.center_y - enemy.center_y):
+                            enemy.change_x *= -1
+                        elif abs(bump.center_x - enemy.center_x) < abs(bump.center_y - enemy.center_y):
+                            enemy.change_y *= -1
+                        elif abs(bump.center_x - enemy.center_x) == abs(bump.center_y - enemy.center_y):
+                            enemy.change_x *= -1
+                            enemy.change_y *= -1
+
+            self.projectile.update(self.player)
+            # check if we walk through a door
+            if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:
+                self.map_num += 1
+                self.setup()
+            # check if we walk into a question space
 
         if self.question.wrong:
             en_cnt = randint(2,6)
@@ -200,6 +206,7 @@ class Director(Window):
                         invalid = False
                 self.enemySprites.append(new_enemy)
             self.question.wrong = False
+
 
 
         self.center_camera()

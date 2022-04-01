@@ -82,9 +82,19 @@ class Player(arcade.Sprite):
         else:
             self.texture = arcade.load_texture(f"{RESOURCE_PATH}{PLAYER_SPRITES[self.playerDirection + 4][int(self.animationFrame/self.animationSpeed)]}")
         
+    def setSpriteList(self, spriteList):
+        self.spriteList = spriteList
+    
     def update(self):
+        if self.hitPoints <= 0:
+            arcade.close_window()
         self.move()
+        if self.spriteList != None:
+            self.collision = self.collides_with_list(self.spriteList)
+            if len(self.collision) != 0:
+                self.onHit(self.collision[0].onHit())
         return super().update()
+        self.update_animation()
 
     def setSpriteList(self, spriteList):
         self.spriteList = spriteList
