@@ -159,7 +159,7 @@ class Director(Window):
     def update(self, delta_time: float):
         """Updates the game every tick"""
 
-        self.score = Dialogue.getScore()
+        # self.score = Dialogue.getScore()
         self.player.setSpriteList(self.enemySprites)
         question_list = arcade.check_for_collision_with_list(self.player, self.scene['question'])
         if len(question_list) >= 1:
@@ -188,7 +188,7 @@ class Director(Window):
                             enemy.change_y *= -1
                 if arcade.get_distance_between_sprites(enemy, self.player) <= AGGRO_DISTANCE:
                     enemy.aggro = True
-                    enemy.setChase(self.player.position)
+                    # enemy.setChase(self.player.position)
                 else:
                     enemy.aggro = False
 

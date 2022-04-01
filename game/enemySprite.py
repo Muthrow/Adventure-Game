@@ -25,6 +25,7 @@ class EnemySprite(Sprite):
         self.sprites = ENEMY_SPRITES
         self.animationFrame = 0
         self.animationSpeed = 2
+        self.aggro = False
 
         self.left_limit = self.center_x - 100
         self.right_limit = self.center_x + 100
