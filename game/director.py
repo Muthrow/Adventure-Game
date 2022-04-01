@@ -192,6 +192,9 @@ class Director(Window):
                 else:
                     enemy.aggro = False
 
+                if arcade.check_for_collision(enemy, self.player):
+                    self.player.hitPoints -= 1
+
             self.projectile.update(self.player)
             # check if we walk through a door
             if len(arcade.check_for_collision_with_list(self.player, self.scene['door'])) >= 1:

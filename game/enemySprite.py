@@ -36,10 +36,6 @@ class EnemySprite(Sprite):
     def setPlayer(self, player):
         self.player = player
 
-    def hit(self):
-        collisionList = self.collides_with_list(self.player)
-        if len(collisionList) != 0:
-            collisionList[0].onHit()
 
     def update(self):
         if self.hitPoints <= 0:
