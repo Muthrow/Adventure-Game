@@ -10,6 +10,7 @@ The keys used for the game are:
 * Space to attack enemies
 * Left click on mouse to answer questions
 
+Run the `__main__.py` file to start the game. <br>
 Enjoy Trivia Quest!
 
 # Development Environment
