@@ -202,7 +202,8 @@ class Director(Window):
                     enemy.aggro = False
 
             if self.boss.defeated:
-                self.scene.
+                print(self.score)
+                arcade.close()
 
             self.projectile.update(self.player)
             # check if we walk through a door
