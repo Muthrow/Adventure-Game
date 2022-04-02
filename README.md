@@ -1,14 +1,34 @@
+# Trivia Quest 
+
 # Overview
 
-{!  Do not say in this section that this is college assignment.}
+Our team created an educational based game aimed towards a middle school level audience. The player will experience exploring dungeons, answering fun questions and battling enemies throughout their quest! We incorporated different subjects to test their knowledge and implemented a score and health system within the game. 
 
-{Provide a description of your team project.  Describe how to use the software.}
+The keys used for the game are:
+
+* W,A,S,D to move the sprite around the map
+* Space to attack enemies
+* Left click on mouse to answer questions
+
+Run the `__main__.py` file to start the game. <br>
+Esc button will quit the game.
+
+Enjoy Trivia Quest!
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+* Visual Studio Code
+* [Tiled](https://www.mapeditor.org/)
 
-{Describe the programming language that you used and any libraries.}
+## Language
+
+* Python
+ 
+### Libraries
+
+* Arcade
+* Time
+* OS
 
 # Collaborators
 
@@ -41,7 +61,7 @@
 # Style Elements
 
 * Dungeon Crawler
-* Quizes
+* Quizzes
 * Punishment/Reward System
 * Boss enemies
 * Animations
