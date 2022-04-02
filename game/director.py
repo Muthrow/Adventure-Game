@@ -56,7 +56,7 @@ class Director(Window):
         self.lava = SpriteList()
         self.door = SpriteList()
         self.player = Player()
-        self.boss = None
+        self.boss = Boss((0,0), self.manager, self.score)
         # self.enemy = EnemySprite()
         # self.enemySprites.append(self.enemy)
         self.enemySprites = SpriteList()
@@ -81,8 +81,8 @@ class Director(Window):
         if cur_map.boss_spawns != None:
             self.boss = Boss(cur_map.boss_spawns, self.manager, self.score)
             self.enemySprites.append(self.boss)
-        # for position in cur_map.grunt_spawns:
-            # self.enemySprites.append(EnemySprite(position))
+        for position in cur_map.grunt_spawns:
+            self.enemySprites.append(EnemySprite(position))
             # pass
         myQ = randint(0, len(qs.questions) - 1)
         self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
@@ -201,9 +201,10 @@ class Director(Window):
                 else:
                     enemy.aggro = False
 
-            if self.boss.defeated:
-                print(self.score)
-                arcade.close()
+            if self.boss != None:
+                if self.boss.defeated:
+                    print(self.score)
+                    arcade.close()
 
             self.projectile.update(self.player)
             # check if we walk through a door
