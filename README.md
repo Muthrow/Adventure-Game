@@ -11,6 +11,8 @@ The keys used for the game are:
 * Left click on mouse to answer questions
 
 Run the `__main__.py` file to start the game. <br>
+Esc button will quit the game.
+
 Enjoy Trivia Quest!
 
 # Development Environment
