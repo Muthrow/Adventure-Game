@@ -69,17 +69,20 @@ class Director(Window):
 
     def setup(self):
         self.camera = arcade.Camera(self.width, self.height)
-        cur_map = self.maps[self.map_num % 4]
+        if self.map_num > 4:
+            print(f'Score: {self.score}')
+            arcade.close()
+        cur_map = self.maps[self.map_num]
         self.player.center_x, self.player.center_y = cur_map.player_spawn
         self.scene = arcade.Scene.from_tilemap(cur_map)
         self.wall_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['obstacle'])
         self.water_physics = arcade.PhysicsEngineSimple(self.player, walls=self.scene['water'])
         #self.enemySprites.clear()
-        if self.map_num % 4 == 3:
-            self.boss = Boss((450,450))
+        if cur_map.boss_spawns != None:
+            self.boss = Boss(cur_map.boss_spawns, self.manager, self.score)
             self.enemySprites.append(self.boss)
-        for position in cur_map.grunt_spawns:
-            self.enemySprites.append(EnemySprite(position))
+        # for position in cur_map.grunt_spawns:
+            # self.enemySprites.append(EnemySprite(position))
             # pass
         myQ = randint(0, len(qs.questions) - 1)
         self.question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], self.manager, self.score)
@@ -177,6 +180,10 @@ class Director(Window):
             self.wall_physics.update()
             self.water_physics.update()
             self.enemySprites.update()
+            if len(self.enemySprites) <= 1:
+                self.boss.vulnerable = True
+            else:
+                self.boss.vulnerable = False
             for enemy in self.enemySprites:
                 wall = arcade.check_for_collision_with_lists(enemy,[self.scene['obstacle'],self.scene['water'],self.scene['lava']])
                 if len(wall) >= 1:
@@ -193,6 +200,9 @@ class Director(Window):
                     # enemy.setChase(self.player.position)
                 else:
                     enemy.aggro = False
+
+            if self.boss.defeated:
+                self.scene.
 
             self.projectile.update(self.player)
             # check if we walk through a door

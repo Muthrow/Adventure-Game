@@ -1,6 +1,4 @@
 import arcade
-from fileinput import filename
-from turtle import position
 from arcade import Sprite
 from time import time
 import random
@@ -120,22 +118,34 @@ class EnemySprite(Sprite):
 
 
 class Boss(EnemySprite):
-    def __init__(self, position):
+    def __init__(self, position, manager, score):
         super().__init__(filename=f"{RESOURCE_PATH}boss.png", position=position)
         self.scale = self.scale*0.4
+        self.manager = manager
+        self.score = score
+        self.hitPoints = 4
+        self.vulnerable = False
+        self.defeated = False
 
     def ask(self, manager, score):
         myQ = random.randint(0, len(qs.questions) - 1)
         question = Dialogue(qs.questions[myQ][0], qs.questions[myQ][1], qs.questions[myQ][2], manager, score)
         return
 
-    def onHit(self, takeDamage=False, damage=1, manager=None, score=None):
-        print("ouch")
-        if takeDamage:
-            self.ask(manager, score)
+    def onHit(self, damage=1):
+        # print("ouch")
+        if self.vulnerable:
+            self.ask(self.manager, self.score)
             return super().onHit(damage)
         else:
             return
 
     def update_animation(self):
         return
+
+    def update(self):
+        if self.hitPoints <= 0:
+            self.remove_from_sprite_lists()
+            self.score += 200
+            self.defeated = True
+        return super().update()
